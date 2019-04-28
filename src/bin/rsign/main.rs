@@ -8,6 +8,7 @@ mod parse_args;
 use crate::helpers::*;
 use crate::parse_args::*;
 use minisign::*;
+use std::io::Write;
 use std::path::{Path, PathBuf};
 
 pub fn cmd_generate<P, Q>(
@@ -66,7 +67,7 @@ where
             ),
         ))?;
     }
-    let signature_box_writer = create_sig_file(&signature_path)?;
+    let mut signature_box_writer = create_sig_file(&signature_path)?;
     let sk = SecretKey::from_file(sk_path, None)?;
     let trusted_comment = if let Some(trusted_comment) = trusted_comment {
         trusted_comment.to_string()
@@ -78,15 +79,16 @@ where
         )
     };
     let (data_reader, should_be_prehashed) = open_data_file(data_path)?;
-    sign(
-        signature_box_writer,
+    let signature_box = sign(
         pk.as_ref(),
         &sk,
         data_reader,
         prehashed | should_be_prehashed,
         Some(trusted_comment.as_str()),
         untrusted_comment,
-    )
+    )?;
+    signature_box_writer.write_all(&signature_box.to_vec())?;
+    Ok(())
 }
 
 pub fn cmd_verify<P, Q>(
@@ -185,7 +187,7 @@ fn run(args: clap::ArgMatches) -> Result<()> {
             pk_path.display()
         );
         println!("Files signed using this key pair can be verified with the following command:\n");
-        println!("rsign verify <file> -P {}", pk.to_string());
+        println!("rsign verify <file> -P {}", pk.to_base64());
         Ok(())
     } else if let Some(sign_action) = args.subcommand_matches("sign") {
         let sk_path = match sign_action.value_of("sk_path") {
@@ -206,7 +208,7 @@ fn run(args: clap::ArgMatches) -> Result<()> {
             }
         } else if sign_action.is_present("public_key") {
             if let Some(string) = sign_action.value_of("public_key") {
-                pk = Some(PublicKey::from_string(string)?);
+                pk = Some(PublicKey::from_base64(string)?);
             }
         };
         let prehashed = sign_action.is_present("hash");
@@ -236,7 +238,7 @@ fn run(args: clap::ArgMatches) -> Result<()> {
                 if verify_action.is_present("pk_path") {
                     PublicKey::from_file(path_or_string)?
                 } else {
-                    PublicKey::from_string(path_or_string)?
+                    PublicKey::from_base64(path_or_string)?
                 }
             }
             None => PublicKey::from_file(SIG_DEFAULT_PKFILE)?,
