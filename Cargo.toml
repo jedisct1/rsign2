@@ -13,7 +13,6 @@ repository = "https://github.com/jedisct1/rsign2"
 base64 = "0.10"
 clap = "2.33"
 minisign = "0.5"
-rand = "0.6"
 
 [target.'cfg(any(windows, unix))'.dependencies]
 dirs = "1.0"
