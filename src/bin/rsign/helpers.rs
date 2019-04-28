@@ -1,7 +1,7 @@
 use minisign::*;
 use std::fs::{DirBuilder, File, OpenOptions};
 use std::io::{BufReader, BufWriter};
-#[cfg(not(windows))]
+#[cfg(unix)]
 use std::os::unix::fs::OpenOptionsExt;
 use std::path::Path;
 use std::time::{SystemTime, UNIX_EPOCH};
@@ -35,11 +35,12 @@ where
     Ok(())
 }
 
-#[cfg(windows)]
+#[cfg(not(unix))]
 pub fn create_file<P>(path: P, _mode: u32) -> Result<BufWriter<File>>
 where
     P: AsRef<Path>,
 {
+    let path = path.as_ref();
     let file = OpenOptions::new()
         .write(true)
         .create_new(true)
@@ -47,13 +48,13 @@ where
         .map_err(|e| {
             PError::new(
                 ErrorKind::Io,
-                format!("while creating: {} - {}", path.as_ref().display(), e),
+                format!("while creating: {} - {}", path.display(), e),
             )
         })?;
     Ok(BufWriter::new(file))
 }
 
-#[cfg(not(windows))]
+#[cfg(unix)]
 pub fn create_file<P>(path: P, mode: u32) -> Result<BufWriter<File>>
 where
     P: AsRef<Path>,

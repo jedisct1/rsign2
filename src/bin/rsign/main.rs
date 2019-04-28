@@ -1,4 +1,5 @@
 extern crate clap;
+#[cfg(any(windows, unix))]
 extern crate dirs;
 extern crate minisign;
 
@@ -10,6 +11,14 @@ use crate::parse_args::*;
 use minisign::*;
 use std::io::Write;
 use std::path::{Path, PathBuf};
+
+#[cfg(any(windows, unix))]
+use dirs::home_dir;
+
+#[cfg(not(any(windows, unix)))]
+fn home_dir() -> Option<PathBuf> {
+    Some(PathBuf::from("."))
+}
 
 pub fn cmd_generate<P, Q>(
     force: bool,
@@ -134,8 +143,8 @@ fn sk_path_or_default(sk_path_str: Option<&str>, force: bool) -> Result<PathBuf>
                     complete_path
                 }
                 Err(_) => {
-                    let home_path = dirs::home_dir()
-                        .ok_or_else(|| PError::new(ErrorKind::Io, "can't find home dir"));
+                    let home_path =
+                        home_dir().ok_or_else(|| PError::new(ErrorKind::Io, "can't find home dir"));
                     let mut complete_path = home_path.unwrap();
                     complete_path.push(SIG_DEFAULT_CONFIG_DIR);
                     if !complete_path.exists() {
@@ -193,8 +202,8 @@ fn run(args: clap::ArgMatches) -> Result<()> {
         let sk_path = match sign_action.value_of("sk_path") {
             Some(path) => PathBuf::from(path),
             None => {
-                let home_path = dirs::home_dir()
-                    .ok_or_else(|| PError::new(ErrorKind::Io, "can't find home dir"));
+                let home_path =
+                    home_dir().ok_or_else(|| PError::new(ErrorKind::Io, "can't find home dir"));
                 let mut complete_path = home_path.unwrap();
                 complete_path.push(SIG_DEFAULT_CONFIG_DIR);
                 complete_path.push(SIG_DEFAULT_SKFILE);
