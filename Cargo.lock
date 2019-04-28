@@ -240,7 +240,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
 name = "minisign"
-version = "0.4.0"
+version = "0.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "base64 0.10.1 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -429,12 +429,12 @@ dependencies = [
 
 [[package]]
 name = "rsign2"
-version = "0.4.0"
+version = "0.5.0"
 dependencies = [
  "base64 0.10.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "clap 2.33.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "dirs 1.0.5 (registry+https://github.com/rust-lang/crates.io-index)",
- "minisign 0.4.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "minisign 0.5.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "rand 0.6.5 (registry+https://github.com/rust-lang/crates.io-index)",
  "rpassword 3.0.2 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
@@ -602,7 +602,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 "checksum hmac 0.7.0 (registry+https://github.com/rust-lang/crates.io-index)" = "f127a908633569f208325f86f71255d3363c79721d7f9fe31cd5569908819771"
 "checksum kernel32-sys 0.2.2 (registry+https://github.com/rust-lang/crates.io-index)" = "7507624b29483431c0ba2d82aece8ca6cdba9382bff4ddd0f7490560c056098d"
 "checksum libc 0.2.53 (registry+https://github.com/rust-lang/crates.io-index)" = "ec350a9417dfd244dc9a6c4a71e13895a4db6b92f0b106f07ebbc3f3bc580cee"
-"checksum minisign 0.4.0 (registry+https://github.com/rust-lang/crates.io-index)" = "86b0bff4974b61d135b8a2c418c62f7563a27903e88cf93ed6a42f166cb2061d"
+"checksum minisign 0.5.0 (registry+https://github.com/rust-lang/crates.io-index)" = "90e1e967d4ea27079da32f72a1c843d43e0ee90d17c555da63ef92d7f6407f84"
 "checksum nodrop 0.1.13 (registry+https://github.com/rust-lang/crates.io-index)" = "2f9667ddcc6cc8a43afc9b7917599d7216aa09c463919ea32c59ed6cac8bc945"
 "checksum numtoa 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)" = "b8f8bdf33df195859076e54ab11ee78a1b208382d3a26ec40d142ffc1ecc49ef"
 "checksum opaque-debug 0.2.2 (registry+https://github.com/rust-lang/crates.io-index)" = "93f5bb2e8e8dec81642920ccff6b61f1eb94fa3020c5a325c9851ff604152409"

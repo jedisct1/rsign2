@@ -87,7 +87,7 @@ where
         Some(trusted_comment.as_str()),
         untrusted_comment,
     )?;
-    signature_box_writer.write_all(&signature_box.to_vec())?;
+    signature_box_writer.write_all(&signature_box.to_bytes())?;
     Ok(())
 }
 
