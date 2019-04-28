@@ -1,9 +1,23 @@
 use minisign::*;
 use std::fs::{DirBuilder, File, OpenOptions};
-use std::io::BufWriter;
+use std::io::{BufReader, BufWriter};
 #[cfg(not(windows))]
 use std::os::unix::fs::OpenOptionsExt;
 use std::path::Path;
+use std::time::{SystemTime, UNIX_EPOCH};
+
+pub fn open_data_file<P>(data_path: P) -> Result<(BufReader<File>, bool)>
+where
+    P: AsRef<Path>,
+{
+    let data_path = data_path.as_ref();
+    let file = OpenOptions::new()
+        .read(true)
+        .open(data_path)
+        .map_err(|e| PError::new(ErrorKind::Io, e))?;
+    let should_be_hashed = file.metadata().unwrap().len() > (1u64 << 30);
+    Ok((BufReader::new(file), should_be_hashed))
+}
 
 pub fn create_dir<P>(path: P) -> Result<()>
 where
@@ -75,4 +89,12 @@ where
             )
         })?;
     Ok(BufWriter::new(file))
+}
+
+pub fn unix_timestamp() -> u64 {
+    let start = SystemTime::now();
+    let since_the_epoch = start
+        .duration_since(UNIX_EPOCH)
+        .expect("system clock is incorrect");
+    since_the_epoch.as_secs()
 }

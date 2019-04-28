@@ -8,23 +8,7 @@ mod parse_args;
 use crate::helpers::*;
 use crate::parse_args::*;
 use minisign::*;
-use std::fs::{File, OpenOptions};
-use std::io::BufReader;
 use std::path::{Path, PathBuf};
-use std::time::{SystemTime, UNIX_EPOCH};
-
-fn open_data_file<P>(data_path: P) -> Result<(BufReader<File>, bool)>
-where
-    P: AsRef<Path>,
-{
-    let data_path = data_path.as_ref();
-    let file = OpenOptions::new()
-        .read(true)
-        .open(data_path)
-        .map_err(|e| PError::new(ErrorKind::Io, e))?;
-    let should_be_hashed = file.metadata().unwrap().len() > (1u64 << 30);
-    Ok((BufReader::new(file), should_be_hashed))
-}
 
 pub fn cmd_generate<P, Q>(
     force: bool,
@@ -57,14 +41,6 @@ force this operation.",
     let pk_writer = create_file(&pk_path, 0o644)?;
     let sk_writer = create_file(&sk_path, 0o600)?;
     KeyPair::generate_and_write_encrypted_keypair(pk_writer, sk_writer, comment, None)
-}
-
-fn unix_timestamp() -> u64 {
-    let start = SystemTime::now();
-    let since_the_epoch = start
-        .duration_since(UNIX_EPOCH)
-        .expect("system clock is incorrect");
-    since_the_epoch.as_secs()
 }
 
 pub fn cmd_sign<P, Q, R>(
