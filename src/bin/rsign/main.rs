@@ -48,7 +48,7 @@ pub fn cmd_sign<P, Q, R>(
     sk_path: P,
     signature_path: Q,
     data_path: R,
-    hashed: bool,
+    prehashed: bool,
     trusted_comment: Option<&str>,
     untrusted_comment: Option<&str>,
 ) -> Result<()>
@@ -77,13 +77,13 @@ where
             data_path.as_ref().display()
         )
     };
-    let (data_reader, should_be_hashed) = open_data_file(data_path)?;
+    let (data_reader, should_be_prehashed) = open_data_file(data_path)?;
     sign(
         signature_box_writer,
         pk.as_ref(),
         &sk,
         data_reader,
-        hashed | should_be_hashed,
+        prehashed | should_be_prehashed,
         Some(trusted_comment.as_str()),
         untrusted_comment,
     )
@@ -101,7 +101,7 @@ where
     Q: AsRef<Path>,
 {
     let signature_box = SignatureBox::from_file(signature_path)?;
-    let (data_reader, _should_be_hashed) = open_data_file(data_path)?;
+    let (data_reader, _should_be_prehashed) = open_data_file(data_path)?;
     verify(&pk, &signature_box, data_reader, quiet, output)
 }
 
@@ -209,7 +209,7 @@ fn run(args: clap::ArgMatches) -> Result<()> {
                 pk = Some(PublicKey::from_string(string)?);
             }
         };
-        let hashed = sign_action.is_present("hash");
+        let prehashed = sign_action.is_present("hash");
         let data_path = PathBuf::from(sign_action.value_of("data").unwrap()); // safe to unwrap
         let signature_path = if let Some(file) = sign_action.value_of("sig_file") {
             PathBuf::from(file)
@@ -223,7 +223,7 @@ fn run(args: clap::ArgMatches) -> Result<()> {
             &sk_path,
             &signature_path,
             &data_path,
-            hashed,
+            prehashed,
             trusted_comment,
             untrusted_comment,
         )
