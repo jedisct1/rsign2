@@ -48,9 +48,17 @@ force this operation.",
             std::fs::remove_file(&pk_path)?;
         }
     }
-    let pk_writer = create_file(&pk_path, 0o644)?;
-    let sk_writer = create_file(&sk_path, 0o600)?;
-    KeyPair::generate_and_write_encrypted_keypair(pk_writer, sk_writer, comment, None)
+    let mut pk_writer = create_file(&pk_path, 0o644)?;
+    let mut sk_writer = create_file(&sk_path, 0o600)?;
+    let kp = KeyPair::generate_and_write_encrypted_keypair(
+        &mut pk_writer,
+        &mut sk_writer,
+        comment,
+        None,
+    )?;
+    pk_writer.flush()?;
+    sk_writer.flush()?;
+    Ok(kp)
 }
 
 pub fn cmd_sign<P, Q, R>(
@@ -97,6 +105,7 @@ where
         untrusted_comment,
     )?;
     signature_box_writer.write_all(&signature_box.to_bytes())?;
+    signature_box_writer.flush()?;
     Ok(())
 }
 

@@ -15,7 +15,10 @@ where
         .read(true)
         .open(data_path)
         .map_err(|e| PError::new(ErrorKind::Io, e))?;
-    let should_be_hashed = file.metadata().unwrap().len() > (1u64 << 30);
+    let should_be_hashed = match file.metadata() {
+        Ok(metadata) => metadata.len() > (1u64 << 30),
+        Err(_) => true,
+    };
     Ok((BufReader::new(file), should_be_hashed))
 }
 

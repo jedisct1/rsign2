@@ -13,9 +13,10 @@ rsign2 is a maintained fork of [rsign](https://docs.rs/crate/rsign/), originally
 Main differences with rsign:
 
 - rsign2 is written in pure Rust.
-- rsign2 has less dependencies.
+- rsign2 has way less dependencies.
 - rsign2 includes bug fixes and improvements.
 - rsign2 tries to be usable as a library, not just as a command-line tool.
+- rsign2 supports WebAssembly.
 
 ## API documentation
 
