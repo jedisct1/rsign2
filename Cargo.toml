@@ -1,6 +1,6 @@
 [package]
 name = "rsign2"
-version = "0.5.1"
+version = "0.5.2"
 authors = ["Frank Denis <github@pureftpd.org>", "Daniel Rangel <daniel@rangel.in>"]
 description = "A command-line tool to sign files and verify signatures."
 license = "MIT"
