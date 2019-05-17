@@ -4,4 +4,5 @@
 *.pub
 *.rsign
 *.minisig
+Cargo.lock
 testfile.txt

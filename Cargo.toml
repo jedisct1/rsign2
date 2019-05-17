@@ -16,3 +16,8 @@ minisign = "0.5"
 
 [target.'cfg(any(windows, unix))'.dependencies]
 dirs = "1.0"
+
+[profile.release]
+lto = true
+panic = "abort"
+opt-level = 3
