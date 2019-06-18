@@ -15,7 +15,7 @@ clap = "2.33"
 minisign = "0.5.9"
 
 [target.'cfg(any(windows, unix))'.dependencies]
-dirs = "1.0"
+dirs = "2.0"
 
 [profile.release]
 lto = true
