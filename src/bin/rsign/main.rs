@@ -125,7 +125,7 @@ where
     verify(&pk, &signature_box, data_reader, quiet, output)
 }
 
-fn sk_path_or_default(sk_path_str: Option<&str>, force: bool) -> Result<PathBuf> {
+fn create_sk_path_or_default(sk_path_str: Option<&str>, force: bool) -> Result<PathBuf> {
     let sk_path = match sk_path_str {
         Some(path) => {
             let complete_path = PathBuf::from(path);
@@ -193,7 +193,7 @@ fn run(args: clap::ArgMatches) -> Result<()> {
             None => PathBuf::from(SIG_DEFAULT_PKFILE),
         };
         let sk_path_str = generate_action.value_of("sk_path");
-        let sk_path = sk_path_or_default(sk_path_str, force)?;
+        let sk_path = create_sk_path_or_default(sk_path_str, force)?;
         let comment = generate_action.value_of("comment");
         let KeyPair { pk, .. } = cmd_generate(force, &pk_path, &sk_path, comment)?;
         println!(
