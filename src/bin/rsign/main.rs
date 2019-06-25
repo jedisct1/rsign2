@@ -134,36 +134,33 @@ fn create_sk_path_or_default(sk_path_str: Option<&str>, force: bool) -> Result<P
             create_dir(&dir)?;
             complete_path
         }
-        None => {
-            let env_path = std::env::var(SIG_DEFAULT_CONFIG_DIR_ENV_VAR);
-            match env_path {
-                Ok(env_path) => {
-                    let mut complete_path = PathBuf::from(env_path);
-                    if !complete_path.exists() {
-                        Err(PError::new(
+        None => match std::env::var(SIG_DEFAULT_CONFIG_DIR_ENV_VAR) {
+            Ok(env_path) => {
+                let mut complete_path = PathBuf::from(env_path);
+                if !complete_path.exists() {
+                    Err(PError::new(
                             ErrorKind::Io,
                             format!(
                                 "folder {} referenced by {} doesn't exists, you'll have to create yourself",
                                 complete_path.display(), SIG_DEFAULT_CONFIG_DIR_ENV_VAR
                             ),
                         ))?;
-                    }
-                    complete_path.push(SIG_DEFAULT_SKFILE);
-                    complete_path
                 }
-                Err(_) => {
-                    let home_path =
-                        home_dir().ok_or_else(|| PError::new(ErrorKind::Io, "can't find home dir"));
-                    let mut complete_path = home_path.unwrap();
-                    complete_path.push(SIG_DEFAULT_CONFIG_DIR);
-                    if !complete_path.exists() {
-                        create_dir(&complete_path)?;
-                    }
-                    complete_path.push(SIG_DEFAULT_SKFILE);
-                    complete_path
-                }
+                complete_path.push(SIG_DEFAULT_SKFILE);
+                complete_path
             }
-        }
+            Err(_) => {
+                let home_path =
+                    home_dir().ok_or_else(|| PError::new(ErrorKind::Io, "can't find home dir"))?;
+                let mut complete_path = home_path;
+                complete_path.push(SIG_DEFAULT_CONFIG_DIR);
+                if !complete_path.exists() {
+                    create_dir(&complete_path)?;
+                }
+                complete_path.push(SIG_DEFAULT_SKFILE);
+                complete_path
+            }
+        },
     };
     if sk_path.exists() {
         if !force {
@@ -185,13 +182,36 @@ force this operation.",
     Ok(sk_path)
 }
 
+fn get_pk_path(explicit_path: Option<&str>) -> Result<PathBuf> {
+    Ok(PathBuf::from(explicit_path.unwrap_or(SIG_DEFAULT_PKFILE)))
+}
+
+fn get_sk_path(explicit_path: Option<&str>) -> Result<PathBuf> {
+    let default_file_name = SIG_DEFAULT_SKFILE;
+    match explicit_path {
+        Some(explicit_path) => Ok(PathBuf::from(explicit_path)),
+        None => match std::env::var(SIG_DEFAULT_CONFIG_DIR_ENV_VAR) {
+            Ok(env_path) => {
+                let mut complete_path = PathBuf::from(env_path);
+                complete_path.push(default_file_name);
+                Ok(complete_path)
+            }
+            Err(_) => {
+                let home_path =
+                    home_dir().ok_or_else(|| PError::new(ErrorKind::Io, "can't find home dir"))?;
+                let mut complete_path = home_path;
+                complete_path.push(SIG_DEFAULT_CONFIG_DIR);
+                complete_path.push(default_file_name);
+                Ok(complete_path)
+            }
+        },
+    }
+}
+
 fn run(args: clap::ArgMatches) -> Result<()> {
     if let Some(generate_action) = args.subcommand_matches("generate") {
         let force = generate_action.is_present("force");
-        let pk_path = match generate_action.value_of("pk_path") {
-            Some(path) => PathBuf::from(path),
-            None => PathBuf::from(SIG_DEFAULT_PKFILE),
-        };
+        let pk_path = get_pk_path(generate_action.value_of("pk_path"))?;
         let sk_path_str = generate_action.value_of("sk_path");
         let sk_path = create_sk_path_or_default(sk_path_str, force)?;
         let comment = generate_action.value_of("comment");
@@ -208,26 +228,13 @@ fn run(args: clap::ArgMatches) -> Result<()> {
         println!("rsign verify <file> -P {}", pk.to_base64());
         Ok(())
     } else if let Some(sign_action) = args.subcommand_matches("sign") {
-        let sk_path = match sign_action.value_of("sk_path") {
-            Some(path) => PathBuf::from(path),
-            None => {
-                let home_path =
-                    home_dir().ok_or_else(|| PError::new(ErrorKind::Io, "can't find home dir"));
-                let mut complete_path = home_path.unwrap();
-                complete_path.push(SIG_DEFAULT_CONFIG_DIR);
-                complete_path.push(SIG_DEFAULT_SKFILE);
-                complete_path
-            }
-        };
-        let mut pk = None;
-        if sign_action.is_present("pk_path") {
-            if let Some(filename) = sign_action.value_of("pk_path") {
-                pk = Some(PublicKey::from_file(filename)?);
-            }
-        } else if sign_action.is_present("public_key") {
-            if let Some(string) = sign_action.value_of("public_key") {
-                pk = Some(PublicKey::from_base64(string)?);
-            }
+        let sk_path = get_sk_path(sign_action.value_of("sk_path"))?;
+        let pk = if let Some(pk_inline) = sign_action.value_of("public_key") {
+            Some(PublicKey::from_base64(pk_inline)?)
+        } else if let Some(pk_path) = sign_action.value_of("pk_path") {
+            Some(PublicKey::from_file(get_pk_path(Some(pk_path))?)?)
+        } else {
+            None
         };
         let prehashed = sign_action.is_present("hash");
         let data_path = PathBuf::from(sign_action.value_of("data").unwrap()); // safe to unwrap
@@ -248,18 +255,10 @@ fn run(args: clap::ArgMatches) -> Result<()> {
             untrusted_comment,
         )
     } else if let Some(verify_action) = args.subcommand_matches("verify") {
-        let pk_path_str = verify_action
-            .value_of("pk_path")
-            .or_else(|| verify_action.value_of("public_key"));
-        let pk = match pk_path_str {
-            Some(path_or_string) => {
-                if verify_action.is_present("pk_path") {
-                    PublicKey::from_file(path_or_string)?
-                } else {
-                    PublicKey::from_base64(path_or_string)?
-                }
-            }
-            None => PublicKey::from_file(SIG_DEFAULT_PKFILE)?,
+        let pk = if let Some(pk_inline) = verify_action.value_of("public_key") {
+            PublicKey::from_base64(pk_inline)?
+        } else {
+            PublicKey::from_file(get_pk_path(verify_action.value_of("pk_path"))?)?
         };
         let data_path = verify_action.value_of("file").unwrap();
         let signature_path = if let Some(path) = verify_action.value_of("sig_file") {
