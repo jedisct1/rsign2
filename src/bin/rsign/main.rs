@@ -34,7 +34,7 @@ where
     let sk_path = sk_path.as_ref();
     if pk_path.exists() {
         if !force {
-            Err(PError::new(
+            return Err(PError::new(
                 ErrorKind::Io,
                 format!(
                     "Key generation aborted:\n
@@ -43,7 +43,7 @@ If you really want to overwrite the existing key pair, add the -f switch to\n
 force this operation.",
                     pk_path.display()
                 ),
-            ))?;
+            ));
         } else {
             std::fs::remove_file(&pk_path)?;
         }
@@ -76,13 +76,13 @@ where
     R: AsRef<Path>,
 {
     if !sk_path.as_ref().exists() {
-        Err(PError::new(
+        return Err(PError::new(
             ErrorKind::Io,
             format!(
                 "can't find secret key file at {}, try using -s",
                 sk_path.as_ref().display()
             ),
-        ))?;
+        ));
     }
     let mut signature_box_writer = create_sig_file(&signature_path)?;
     let sk = SecretKey::from_file(sk_path, None)?;
@@ -138,13 +138,13 @@ fn create_sk_path_or_default(sk_path_str: Option<&str>, force: bool) -> Result<P
             Ok(env_path) => {
                 let mut complete_path = PathBuf::from(env_path);
                 if !complete_path.exists() {
-                    Err(PError::new(
+                    return Err(PError::new(
                             ErrorKind::Io,
                             format!(
                                 "folder {} referenced by {} doesn't exists, you'll have to create yourself",
                                 complete_path.display(), SIG_DEFAULT_CONFIG_DIR_ENV_VAR
                             ),
-                        ))?;
+                        ));
                 }
                 complete_path.push(SIG_DEFAULT_SKFILE);
                 complete_path
@@ -164,7 +164,7 @@ fn create_sk_path_or_default(sk_path_str: Option<&str>, force: bool) -> Result<P
     };
     if sk_path.exists() {
         if !force {
-            Err(PError::new(
+            return Err(PError::new(
                 ErrorKind::Io,
                 format!(
                     "Key generation aborted:
@@ -174,7 +174,7 @@ If you really want to overwrite the existing key pair, add the -f switch to
 force this operation.",
                     sk_path.display()
                 ),
-            ))?;
+            ));
         } else {
             std::fs::remove_file(&sk_path)?;
         }
