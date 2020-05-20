@@ -1,11 +1,7 @@
-extern crate clap;
-use self::clap::{App, Arg, SubCommand};
+use clap::{Arg, SubCommand};
 
 pub fn parse_args<'a>() -> clap::ArgMatches<'a> {
-    App::new("rsign")
-        .version("0.1.1")
-        .author("Daniel Rangel <daniel@rangel.in>")
-        .about("Rust implementation of minisign")
+    app_from_crate!()
         .subcommand(
             SubCommand::with_name("generate")
                 .about("Generate public and private keys")

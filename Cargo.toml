@@ -3,6 +3,7 @@ name = "rsign2"
 version = "0.5.5"
 authors = ["Frank Denis <github@pureftpd.org>", "Daniel Rangel <daniel@rangel.in>"]
 description = "A command-line tool to sign files and verify signatures."
+edition = "2018"
 license = "MIT"
 readme = "README.md"
 categories = ["command-line-utilities", "cryptography"]

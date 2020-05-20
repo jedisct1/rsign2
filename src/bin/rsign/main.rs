@@ -1,7 +1,5 @@
+#[macro_use]
 extern crate clap;
-#[cfg(any(windows, unix))]
-extern crate dirs_next as dirs;
-extern crate minisign;
 
 mod helpers;
 mod parse_args;
@@ -13,7 +11,7 @@ use std::io::Write;
 use std::path::{Path, PathBuf};
 
 #[cfg(any(windows, unix))]
-use dirs::home_dir;
+use dirs_next::home_dir;
 
 #[cfg(not(any(windows, unix)))]
 fn home_dir() -> Option<PathBuf> {
@@ -208,7 +206,7 @@ fn get_sk_path(explicit_path: Option<&str>) -> Result<PathBuf> {
     }
 }
 
-fn run(args: clap::ArgMatches) -> Result<()> {
+fn run(args: clap::ArgMatches<'_>) -> Result<()> {
     if let Some(generate_action) = args.subcommand_matches("generate") {
         let force = generate_action.is_present("force");
         let pk_path = get_pk_path(generate_action.value_of("pk_path"))?;
