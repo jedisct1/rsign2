@@ -1,6 +1,6 @@
 extern crate clap;
 #[cfg(any(windows, unix))]
-extern crate dirs;
+extern crate dirs_next as dirs;
 extern crate minisign;
 
 mod helpers;

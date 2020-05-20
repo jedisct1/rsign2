@@ -10,12 +10,11 @@ keywords = ["command-line", "sign", "publickey", "cryptography", "minisign"]
 repository = "https://github.com/jedisct1/rsign2"
 
 [dependencies]
-base64 = "0.11"
-clap = "2.33"
-minisign = "0.5.14"
+clap = "2.33.1"
+minisign = "0.5.16"
 
 [target.'cfg(any(windows, unix))'.dependencies]
-dirs = "2.0"
+dirs-next = "1.0.0"
 
 [profile.release]
 lto = true
