@@ -120,8 +120,26 @@ where
     P: AsRef<Path>,
     Q: AsRef<Path>,
 {
-    let signature_box = SignatureBox::from_file(signature_path)?;
-    let (data_reader, _should_be_prehashed) = open_data_file(data_path)?;
+    let signature_box = SignatureBox::from_file(&signature_path).map_err(|err| {
+        PError::new(
+            ErrorKind::Io,
+            format!(
+                "could not read signature file {}: {}",
+                signature_path.as_ref().display(),
+                err
+            ),
+        )
+    })?;
+    let (data_reader, _should_be_prehashed) = open_data_file(&data_path).map_err(|err| {
+        PError::new(
+            ErrorKind::Io,
+            format!(
+                "could not read data file {}: {}",
+                data_path.as_ref().display(),
+                err
+            ),
+        )
+    })?;
     verify(&pk, &signature_box, data_reader, quiet, output)
 }
 
