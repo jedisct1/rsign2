@@ -10,9 +10,9 @@ keywords = ["command-line", "sign", "publickey", "cryptography", "minisign"]
 repository = "https://github.com/jedisct1/rsign2"
 
 [dependencies]
-base64 = "0.12"
+base64 = "0.13"
 clap = "2.33"
-minisign = "0.5.15"
+minisign = "0.5.22"
 
 [target.'cfg(any(windows, unix))'.dependencies]
 dirs = "3.0"
