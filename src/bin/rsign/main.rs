@@ -17,8 +17,6 @@ use std::path::{Path, PathBuf};
 #[cfg(any(windows, unix))]
 use dirs::home_dir;
 
-use std::fs;
-
 #[cfg(not(any(windows, unix)))]
 fn home_dir() -> Option<PathBuf> {
     Some(PathBuf::from("."))
@@ -62,8 +60,6 @@ force this operation.",
         None,
         seed,
     )?;
-
-    println!("{:?} ", kp);
 
     pk_writer.flush()?;
     sk_writer.flush()?;
@@ -405,25 +401,6 @@ fn run(args: clap::ArgMatches) -> Result<()> {
             quiet,
             output,
         )
-    } else if let Some(tor_secret) = args.subcommand_matches("import-tor-secret") {
-        println!("{:?}", tor_secret);
-        let data_path = PathBuf::from(tor_secret.value_of("tor_secret_path").unwrap()); // safe to unwrap
-        let data = fs::read(data_path)?;
-        println!("data {:?}", data);
-        let hrp_of_tor_secret = b"== ed25519v1-secret: type0 ==\0\0\0";
-
-        let matching = hrp_of_tor_secret
-            .iter()
-            .zip(&data)
-            .filter(|&(a, b)| a == b)
-            .count();
-
-        assert_eq!(matching, 32);
-
-        let expanded_secret_key = &data[32..];
-        println!("expanded_secret_key {:?}", expanded_secret_key);
-
-        Ok(())
     } else {
         println!("{}\n", args.usage());
         std::process::exit(1);
