@@ -54,7 +54,7 @@ rsign verify myfile.txt -P [PUBLIC KEY STRING] -x mysignature.file
 ```
 
 You can export your secret to use it for a Tor Onion v3 hidden service. This will produce `hs_ed25519_secret_key`,
-`hs_ed25519_public_key` and `hostname` in `torgap-sig-cli-rust`.
+`hs_ed25519_public_key` and `hostname` in the same directory where your `secret` is.
 
 ```sh
 rsign export-to-onion-keys

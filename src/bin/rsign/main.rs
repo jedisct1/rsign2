@@ -196,8 +196,7 @@ where
             onion_address.unwrap(),
             signature_box.get_sig_alg(),
             signature_box.get_keynum(),
-        )
-        .unwrap();
+        )?;
     } else {
         pubkey = pk.unwrap();
     }
@@ -331,10 +330,19 @@ fn run(args: clap::ArgMatches) -> Result<()> {
         Ok(())
     } else if let Some(onion) = args.subcommand_matches("export-to-onion-keys") {
         let force = onion.is_present("force");
-        let tor_sk_path = PathBuf::from(SIG_DEFAULT_TORSKFILE);
-        let tor_onion_path = PathBuf::from(SIG_DEFAULT_TORONIONFILE);
-        let tor_pk_path = PathBuf::from(SIG_DEFAULT_TORPKFILE);
         let sk_path = get_sk_path(onion.value_of("sk_path"))?;
+
+        let mut tor_sk_path = sk_path.clone();
+        tor_sk_path.pop();
+        tor_sk_path.push(SIG_DEFAULT_TORSKFILE);
+
+        let mut tor_onion_path = sk_path.clone();
+        tor_onion_path.pop();
+        tor_onion_path.push(SIG_DEFAULT_TORONIONFILE);
+
+        let mut tor_pk_path = sk_path.clone();
+        tor_pk_path.pop();
+        tor_pk_path.push(SIG_DEFAULT_TORPKFILE);
 
         cmd_convert_to_onion_keys(force, &tor_sk_path, &tor_pk_path, &tor_onion_path, &sk_path)?;
 
