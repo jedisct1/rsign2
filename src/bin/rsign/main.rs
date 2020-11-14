@@ -1,6 +1,7 @@
 extern crate clap;
 #[cfg(any(windows, unix))]
 extern crate dirs;
+extern crate hex;
 extern crate minisign;
 
 mod helpers;
@@ -8,12 +9,15 @@ mod parse_args;
 
 use crate::helpers::*;
 use crate::parse_args::*;
+use hex::decode;
 use minisign::*;
 use std::io::Write;
 use std::path::{Path, PathBuf};
 
 #[cfg(any(windows, unix))]
 use dirs::home_dir;
+
+use std::fs;
 
 #[cfg(not(any(windows, unix)))]
 fn home_dir() -> Option<PathBuf> {
@@ -25,6 +29,7 @@ pub fn cmd_generate<P, Q>(
     pk_path: P,
     sk_path: Q,
     comment: Option<&str>,
+    seed: Option<Vec<u8>>,
 ) -> Result<KeyPair>
 where
     P: AsRef<Path>,
@@ -55,10 +60,67 @@ force this operation.",
         &mut sk_writer,
         comment,
         None,
+        seed,
     )?;
+
+    println!("{:?} ", kp);
+
     pk_writer.flush()?;
     sk_writer.flush()?;
     Ok(kp)
+}
+
+pub fn cmd_convert_to_onion_keys<P, Q, Z, W>(
+    force: bool,
+    tor_sk_path: P,
+    tor_pk_path: Q,
+    tor_onion_path: Z,
+    sk_path: W,
+) -> Result<bool>
+where
+    P: AsRef<Path>,
+    Q: AsRef<Path>,
+    Z: AsRef<Path>,
+    W: AsRef<Path>,
+{
+    let tor_sk_path = tor_sk_path.as_ref();
+    let tor_pk_path = tor_pk_path.as_ref();
+    let tor_onion_path = tor_onion_path.as_ref();
+
+    if tor_sk_path.exists() || tor_pk_path.exists() || tor_onion_path.exists() {
+        if !force {
+            return Err(PError::new(
+                ErrorKind::Io,
+                format!(
+                    "Exporting keys aborted:\n
+If you want to overwrite the existing onion keys and hostname file, add the -f switch to\n
+force this operation.",
+                ),
+            ));
+        } else {
+            if tor_sk_path.exists() {
+                std::fs::remove_file(&tor_sk_path)?;
+            }
+            if tor_pk_path.exists() {
+                std::fs::remove_file(&tor_pk_path)?;
+            }
+            if tor_onion_path.exists() {
+                std::fs::remove_file(&tor_onion_path)?;
+            }
+        }
+    }
+
+    let mut sk_writer = create_file(&tor_sk_path, 0o666)?;
+    let mut pk_writer = create_file(&tor_pk_path, 0o666)?;
+    let mut hostname_writer = create_file(&tor_onion_path, 0o666)?;
+
+    let sk = SecretKey::from_file(sk_path, None)?;
+    convert_secret_to_onion_keys(&mut sk_writer, &mut pk_writer, &mut hostname_writer, sk)?;
+
+    pk_writer.flush()?;
+    sk_writer.flush()?;
+    hostname_writer.flush()?;
+    Ok(true)
 }
 
 pub fn cmd_sign<P, Q, R>(
@@ -110,7 +172,8 @@ where
 }
 
 pub fn cmd_verify<P, Q>(
-    pk: PublicKey,
+    pk: Option<PublicKey>,
+    onion_address: Option<&str>,
     data_path: P,
     signature_path: Q,
     quiet: bool,
@@ -120,6 +183,7 @@ where
     P: AsRef<Path>,
     Q: AsRef<Path>,
 {
+    let pubkey: PublicKey;
     let signature_box = SignatureBox::from_file(&signature_path).map_err(|err| {
         PError::new(
             ErrorKind::Io,
@@ -130,6 +194,18 @@ where
             ),
         )
     })?;
+
+    if pk == None {
+        pubkey = PublicKey::from_onion_address(
+            onion_address.unwrap(),
+            signature_box.get_sig_alg(),
+            signature_box.get_keynum(),
+        )
+        .unwrap();
+    } else {
+        pubkey = pk.unwrap();
+    }
+
     let (data_reader, _should_be_prehashed) = open_data_file(&data_path).map_err(|err| {
         PError::new(
             ErrorKind::Io,
@@ -140,7 +216,7 @@ where
             ),
         )
     })?;
-    verify(&pk, &signature_box, data_reader, quiet, output)
+    verify(&pubkey, &signature_box, data_reader, quiet, output)
 }
 
 fn create_sk_path_or_default(sk_path_str: Option<&str>, force: bool) -> Result<PathBuf> {
@@ -233,7 +309,19 @@ fn run(args: clap::ArgMatches) -> Result<()> {
         let sk_path_str = generate_action.value_of("sk_path");
         let sk_path = create_sk_path_or_default(sk_path_str, force)?;
         let comment = generate_action.value_of("comment");
-        let KeyPair { pk, .. } = cmd_generate(force, &pk_path, &sk_path, comment)?;
+        let seed = {
+            let seed_opt: Option<Vec<u8>>;
+            if let Some(seed) = generate_action.value_of("seed") {
+                let seed_vec = decode(seed).unwrap();
+                println!("seed: {:?}", seed_vec);
+                seed_opt = Some(seed_vec);
+            } else {
+                seed_opt = None;
+            }
+            seed_opt
+        };
+
+        let KeyPair { pk, .. } = cmd_generate(force, &pk_path, &sk_path, comment, seed)?;
         println!(
             "\nThe secret key was saved as {} - Keep it secret!",
             sk_path.display()
@@ -244,6 +332,16 @@ fn run(args: clap::ArgMatches) -> Result<()> {
         );
         println!("Files signed using this key pair can be verified with the following command:\n");
         println!("rsign verify <file> -P {}", pk.to_base64());
+        Ok(())
+    } else if let Some(onion) = args.subcommand_matches("export-to-onion-keys") {
+        let force = onion.is_present("force");
+        let tor_sk_path = PathBuf::from(SIG_DEFAULT_TORSKFILE);
+        let tor_onion_path = PathBuf::from(SIG_DEFAULT_TORONIONFILE);
+        let tor_pk_path = PathBuf::from(SIG_DEFAULT_TORPKFILE);
+        let sk_path = get_sk_path(onion.value_of("sk_path"))?;
+
+        cmd_convert_to_onion_keys(force, &tor_sk_path, &tor_pk_path, &tor_onion_path, &sk_path)?;
+
         Ok(())
     } else if let Some(sign_action) = args.subcommand_matches("sign") {
         let sk_path = get_sk_path(sign_action.value_of("sk_path"))?;
@@ -274,10 +372,23 @@ fn run(args: clap::ArgMatches) -> Result<()> {
         )
     } else if let Some(verify_action) = args.subcommand_matches("verify") {
         let pk = if let Some(pk_inline) = verify_action.value_of("public_key") {
-            PublicKey::from_base64(pk_inline)?
+            Some(PublicKey::from_base64(pk_inline)?)
+        } else if let Some(path) = verify_action.value_of("pk_path") {
+            Some(PublicKey::from_file(get_pk_path(Some(path))?)?)
         } else {
-            PublicKey::from_file(get_pk_path(verify_action.value_of("pk_path"))?)?
+            let pk: Option<PublicKey>;
+            if verify_action.is_present("onion_address") == false {
+                pk = Some(PublicKey::from_file(get_pk_path(
+                    verify_action.value_of("pk_path"),
+                )?)?);
+                pk
+            } else {
+                None
+            }
         };
+
+        let onion_address = verify_action.value_of("onion_address");
+
         let data_path = verify_action.value_of("file").unwrap();
         let signature_path = if let Some(path) = verify_action.value_of("sig_file") {
             PathBuf::from(path)
@@ -286,7 +397,33 @@ fn run(args: clap::ArgMatches) -> Result<()> {
         };
         let quiet = verify_action.is_present("quiet");
         let output = verify_action.is_present("output");
-        cmd_verify(pk, &data_path, &signature_path, quiet, output)
+        cmd_verify(
+            pk,
+            onion_address,
+            &data_path,
+            &signature_path,
+            quiet,
+            output,
+        )
+    } else if let Some(tor_secret) = args.subcommand_matches("import-tor-secret") {
+        println!("{:?}", tor_secret);
+        let data_path = PathBuf::from(tor_secret.value_of("tor_secret_path").unwrap()); // safe to unwrap
+        let data = fs::read(data_path)?;
+        println!("data {:?}", data);
+        let hrp_of_tor_secret = b"== ed25519v1-secret: type0 ==\0\0\0";
+
+        let matching = hrp_of_tor_secret
+            .iter()
+            .zip(&data)
+            .filter(|&(a, b)| a == b)
+            .count();
+
+        assert_eq!(matching, 32);
+
+        let expanded_secret_key = &data[32..];
+        println!("expanded_secret_key {:?}", expanded_secret_key);
+
+        Ok(())
     } else {
         println!("{}\n", args.usage());
         std::process::exit(1);

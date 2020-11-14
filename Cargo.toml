@@ -1,18 +1,19 @@
 [package]
-name = "rsign2"
+name = "torgap-sig-cli-rust"
 version = "0.5.6"
-authors = ["Frank Denis <github@pureftpd.org>", "Daniel Rangel <daniel@rangel.in>"]
-description = "A command-line tool to sign files and verify signatures."
+authors = ["Frank Denis <github@pureftpd.org>", "Daniel Rangel <daniel@rangel.in>", "ChristopherA@LifeWithAlacrity.com"]
+description = "minisign with support for Tor hidden service keys"
 license = "MIT"
 readme = "README.md"
 categories = ["command-line-utilities", "cryptography"]
-keywords = ["command-line", "sign", "publickey", "cryptography", "minisign"]
-repository = "https://github.com/jedisct1/rsign2"
+keywords = ["command-line", "sign", "publickey", "cryptography", "minisign", "Tor"]
+repository = "https://github.com/BlockchainCommons/torgap-sig-cli-rust"
 
 [dependencies]
 base64 = "0.13"
 clap = "2.33"
-minisign = "0.6"
+hex= "0.4.2"
+minisign = { git = "https://github.com/BlockchainCommons/torgap-sig.git", branch = "master" }
 
 [target.'cfg(any(windows, unix))'.dependencies]
 dirs = "3.0"

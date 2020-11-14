@@ -4,5 +4,6 @@
 *.pub
 *.rsign
 *.minisig
-Cargo.lock
-testfile.txt
+hs_ed25519_secret_key
+hs_ed25519_public_key
+hostname

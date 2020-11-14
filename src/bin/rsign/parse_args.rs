@@ -26,6 +26,14 @@ pub fn parse_args<'a>() -> clap::ArgMatches<'a> {
                         .help("path to the new secret key"),
                 )
                 .arg(
+                    Arg::with_name("tor_secret_path")
+                        .short("t")
+                        .long("tor-secret-key-path")
+                        .takes_value(true)
+                        .value_name("TOR_SECRET_KEY_PATH")
+                        .help("path to the new secret key for in 'Tor hidden service' format"),
+                )
+                .arg(
                     Arg::with_name("force")
                         .short("f")
                         .long("force")
@@ -38,6 +46,32 @@ pub fn parse_args<'a>() -> clap::ArgMatches<'a> {
                         .value_name("COMMENT")
                         .short("c")
                         .long("comment"),
+                )
+                .arg(
+                    Arg::with_name("seed")
+                        .takes_value(true)
+                        .help("add determinstic seed. Must be 32 bytes long")
+                        .value_name("seed")
+                        .short("S")
+                        .long("seed"),
+                ),
+        )
+        .subcommand(
+            SubCommand::with_name("export-to-onion-keys")
+                .about("Convert secret to Tor hidden service keys and hostname")
+                .arg(
+                    Arg::with_name("sk_path")
+                        .short("s")
+                        .long("secret-key-path")
+                        .takes_value(true)
+                        .value_name("SECRET_KEY_PATH")
+                        .help("path to the secret key"),
+                )
+                .arg(
+                    Arg::with_name("force")
+                        .short("f")
+                        .long("force")
+                        .help("force generate a new keypair"),
                 ),
         )
         .subcommand(
@@ -56,9 +90,19 @@ pub fn parse_args<'a>() -> clap::ArgMatches<'a> {
                     Arg::with_name("pk_path")
                         .short("p")
                         .long("public-key-path")
+                        .conflicts_with("onion_address")
                         .takes_value(true)
                         .value_name("PUBLIC_KEY_PATH")
                         .help("path to public key file"),
+                )
+                .arg(
+                    Arg::with_name("onion_address")
+                        .short("O")
+                        .long("onion-address")
+                        .conflicts_with("public_key")
+                        .takes_value(true)
+                        .value_name("ONION")
+                        .help("Tor v3 address"),
                 )
                 .arg(
                     Arg::with_name("sig_file")
