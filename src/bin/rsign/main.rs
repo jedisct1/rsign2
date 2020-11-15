@@ -87,11 +87,10 @@ where
         if !force {
             return Err(PError::new(
                 ErrorKind::Io,
-                format!(
-                    "Exporting keys aborted:\n
+                "Exporting keys aborted:\n
 If you want to overwrite the existing onion keys and hostname file, add the -f switch to\n
-force this operation.",
-                ),
+force this operation."
+                    .to_string(),
             ));
         } else {
             if tor_sk_path.exists() {
@@ -381,7 +380,7 @@ fn run(args: clap::ArgMatches) -> Result<()> {
             Some(PublicKey::from_file(get_pk_path(Some(path))?)?)
         } else {
             let pk: Option<PublicKey>;
-            if verify_action.is_present("onion_address") == false {
+            if !verify_action.is_present("onion_address") {
                 pk = Some(PublicKey::from_file(get_pk_path(
                     verify_action.value_of("pk_path"),
                 )?)?);
