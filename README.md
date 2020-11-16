@@ -65,6 +65,16 @@ To build `torgap-sig-cli-rust` you'll need to use the following tools:
 
 - [Rust and Cargo](https://doc.rust-lang.org/cargo/getting-started/installation.html)
 
+### Run
+cargo build
+
+The resulting executable is 'target/debug/rsign'
+
+But you can run and build automatically with a single command: cargo run
+So you can do: cargo run help
+
+Note that "cargo run help" is equivalent to: "target/debug/rsign help" and when using "cargo run", "cargo build" can be omitted, as it's already automatically executed.
+
 ### Derived from…
 
 `torgap-sig-cli-rust` is either derived from or was inspired by:
