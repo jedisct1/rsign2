@@ -1,13 +1,41 @@
 # Blockchain Commons torgap-sig-cli-rust
 
-`torgap-sig-cli-rust` is a fork of [rsign2](https://github.com/jedisct1/rsign2), Rust implementation of [Minisign](https://jedisct1.github.io/minisign/) with support for
+`torgap-sig-cli-rust` is a fork of [rsign2](https://github.com/jedisct1/rsign2), a Rust implementation of [Minisign](https://jedisct1.github.io/minisign/) with support for
 Tor onion v3 hidden service keys.
 
-It allows signing a file and verifying its signature with an onion v3 address:
+## Additional Information
+
+* [Manual](docs/MANUAL.md) on how to use `torgap-sig-cli-rust`.
+
+## Status - Late Alpha
+
+`torgap-sig-cli-rust` is currently under active development and in the late alpha testing phase. It should not be used for production tasks until it has had further testing and auditing.
+
+## Installation Instructions
+
+Install with:
+
+`cargo build`
+
+The resulting executable is `target/debug/rsign`
+
+You can alternatively run and build automatically with a single command: `cargo run`.
+
+For more information: `cargo run help`
+
+Note that `cargo run help` is equivalent to `target/debug/rsign help` and when using `cargo run`, `cargo build` can be omitted, as it's already automatically executed.
+
+## Usage Instructions
+
+`torgap-sig-cli-rust` allows a file to be signed and its signature to be verified with an onion v3 address.
+
+Any file can be used:
 
 ```sh
 echo "Mr. Watson--come here--I want to see you." > myfile.txt
 ```
+
+Sign the file with the `rsign` command:
 
 ```sh
 rsign sign myfile.txt
@@ -16,7 +44,7 @@ Password:
 Deriving a key from the password and decrypting the secret key... done
 ```
 
-A detached signature is generated
+A detached signature is generated:
 
 ```sh
 untrusted comment: signature from rsign secret key
@@ -25,7 +53,7 @@ trusted comment: timestamp:1605303858 file:myfile.txt addr:fscst5exmlmr262byztwz
 pp15vK04ItsRBNooW9K/BAxyCVZyrp4vxiJ7draB2bKyzm3w3ChWwnLFAuzKPHqG0ZL6Am39Xde9aFQ+rebzBA==
 ```
 
-which can be verified with an onion address:
+`rsign` can then be used to verify this signature with an onion address:
 
 ```sh
 rsign verify myfile.txt --onion-address fscst5exmlmr262byztwz4kzhggjlzumvc2ndvgytzoucr2tkgxf7mid.onion
@@ -33,25 +61,15 @@ Signature and comment signature verified
 Trusted comment: timestamp:1605303858 file:myfile.txt addr:fscst5exmlmr262byztwz4kzhggjlzumvc2ndvgytzoucr2tkgxf7mid.onion
 ```
 
-Minisign keys can be generated `rsign generate` and exported to Tor hidden service keys `rsign export-to-onion-keys`, i.e. `hs_ed25519_secret_key`, `hs_ed25519_public_key`, `hostname`. However, Tor keys cannot be converted back to minisign key format.
+Minisign keys can be generated using `rsign generate` and exported to Tor hidden service keys via `rsign export-to-onion-keys`, i.e. `hs_ed25519_secret_key`, `hs_ed25519_public_key`, `hostname`. However, Tor keys cannot be converted back to minisign key format.
 
 ### Demo
 
 You can try it out yourself: `http://fscst5exmlmr262byztwz4kzhggjlzumvc2ndvgytzoucr2tkgxf7mid.onion/`
 
-## Additional Information
-
-* [Manual](docs/MANUAL.md) on how to use `torgap-sig-cli-rust`
-* relies on [torgap-sig crate](https://github.com/BlockchainCommons/torgap-sig)
-
-## Status - Late Alpha
-
-`torgap-sig-cli-rust` is currently under active development and in the late alpha testing phase. It should not be used for production tasks until it has had further testing and auditing.
-
 ## Origin, Authors, Copyright & Licenses
 
 Unless otherwise noted (either in this [/README.md](./README.md) or in the file's header comments) the contents of this repository are Copyright © 2020 by Blockchain Commons, LLC, and are [licensed](./LICENSE) under the [spdx:BSD-2-Clause Plus Patent License](https://spdx.org/licenses/BSD-2-Clause-Patent.html).
-
 
 In most cases, the authors, copyright, and license for each file reside in header comments in the source code. When it does not, we have attempted to attribute it accurately in the table below.
 
@@ -64,16 +82,7 @@ This table below also establishes provenance (repository of origin, permalink, a
 To build `torgap-sig-cli-rust` you'll need to use the following tools:
 
 - [Rust and Cargo](https://doc.rust-lang.org/cargo/getting-started/installation.html)
-
-### Run
-`cargo build`
-
-The resulting executable is 'target/debug/rsign'
-
-But you can run and build automatically with a single command: `cargo run`
-So you can do: `cargo run help`
-
-Note that "cargo run help" is equivalent to: "target/debug/rsign help" and when using "cargo run", "cargo build" can be omitted, as it's already automatically executed.
+- [torgap-sig crate](https://github.com/BlockchainCommons/torgap-sig)
 
 ### Derived from…
 
@@ -100,8 +109,6 @@ We encourage public contributions through issues and pull requests! Please revie
 ### Discussions
 
 The best place to talk about Blockchain Commons and its projects is in our GitHub Discussions areas.
-
-[**Gordian System Discussions**](https://github.com/BlockchainCommons/Gordian/discussions). For users and developers of the Gordian system, including the Gordian Server, Bitcoin Standup technology, QuickConnect, and the Gordian Wallet. If you want to talk about our linked full-node and wallet technology, suggest new additions to our Bitcoin Standup standards, or discuss the implementation our standalone wallet, the Discussions area of the [main Gordian repo](https://github.com/BlockchainCommons/Gordian) is the place.
 
 [**Wallet Standard Discussions**](https://github.com/BlockchainCommons/AirgappedSigning/discussions). For standards and open-source developers who want to talk about wallet standards, please use the Discussions area of the [Airgapped Signing repo](https://github.com/BlockchainCommons/AirgappedSigning). This is where you can talk about projects like our [LetheKit](https://github.com/BlockchainCommons/bc-lethekit) and command line tools such as [seedtool](https://github.com/BlockchainCommons/bc-seedtool-cli), both of which are intended to testbed wallet technologies, plus the libraries that we've built to support your own deployment of wallet technology such as [bc-bip39](https://github.com/BlockchainCommons/bc-bip39), [bc-slip39](https://github.com/BlockchainCommons/bc-slip39), [bc-shamir](https://github.com/BlockchainCommons/bc-shamir), [Shamir Secret Key Recovery](https://github.com/BlockchainCommons/bc-sskr), [bc-ur](https://github.com/BlockchainCommons/bc-ur), and the [bc-crypto-base](https://github.com/BlockchainCommons/bc-crypto-base). If it's a wallet-focused technology or a more general discussion of wallet standards,discuss it here.
 
