@@ -81,7 +81,9 @@ Signature and comment signature verified
 Trusted comment: timestamp:1605303858 file:myfile.txt addr:fscst5exmlmr262byztwz4kzhggjlzumvc2ndvgytzoucr2tkgxf7mid.onion
 ```
 
-Minisign keys can be generated using `rsign generate` and exported to Tor hidden service keys via `rsign export-to-onion-keys`, i.e. `hs_ed25519_secret_key`, `hs_ed25519_public_key`, `hostname`. However, Tor keys cannot be converted back to minisign key format.
+Minisign keys can be generated using `rsign generate` and exported to Tor hidden service keys via `rsign export-to-onion-keys`, i.e. `hs_ed25519_secret_key`, `hs_ed25519_public_key`, `hostname`. 
+The reason you import signing-capable keys in `Tor` hidden service, is because you can’t go in the other direction and use exported Tor private keys, outside of Tor. Tor keys simply cannot be converted back to minisign key format. In fact Tor private keys can't used anywhere else, expect within Tor.
+
 
 For more information on setting this up, see the [Manual](docs/MANUAL.md).
 
