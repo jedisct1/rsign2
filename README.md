@@ -3,9 +3,27 @@
 `torgap-sig-cli-rust` is a fork of [rsign2](https://github.com/jedisct1/rsign2), a Rust implementation of [Minisign](https://jedisct1.github.io/minisign/) with support for
 Tor onion v3 hidden service keys.
 
+### Why is torgap-sig-cli-rust relevant?
+
+Torgap-sig-cli-rust facilitates the creation of decentralized identifiers (DIDs) - a type of identifier that enables verifiable, decentralized digital identity.
+
+It does so by extending capabilities of Tor onion services with issuing digital signatures (minisign), thus enabling the controller of a DID to prove control over it without requiring permission from any other party.
+
+#### Why Tor?
+Tor is private and decentralized by design, i.e. no centralized registries or identity providers are required to access or offer onion services.
+
+A use case would be for microcurrency services to issue verifiable claims about their services without necessarily revealing a personal identity behind that service.
+
+### In what is torgap-sig-cli-rust unique?
+Details are still being discussed with people in W3C DID community. We are for a lean and mean approach.
+
+It is unlikely we’ll support `DIDcomm` as is, more likely something closer to the protocol used by Signal. We might favor to do some fundamental things like [perfect forward secrecy](https://en.wikipedia.org/wiki/Forward_secrecy) that Signal does.
+
 ## Additional Information
 
-* [Manual](docs/MANUAL.md) on how to use `torgap-sig-cli-rust`.
+* [Manual](docs/MANUAL.md) on how to use `torgap-sig-cli-rust`. This is an operational guide with example instructions.
+* [Signal protocol](https://en.wikipedia.org/wiki/Signal_Protocol#Properties) properties explained.
+* [Opentimestamps](opentimestamps.org) aims to be a standard format for blockchain timestamping, most and for all bitcoin. 
 
 ## Status - Late Alpha
 
