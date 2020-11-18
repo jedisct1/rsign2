@@ -19,6 +19,8 @@ Details are still being discussed with people in W3C DID community. We are for a
 
 It is unlikely we’ll support `DIDcomm` as is, more likely something closer to the protocol used by Signal. We might favor to do some fundamental things like [perfect forward secrecy](https://en.wikipedia.org/wiki/Forward_secrecy) that Signal does.
 
+ `torgap-sig-cli-rust` is aimed at the trustless & censorship resistant side of the digital identity spectrum. It is a `DID`, it is anti-correlation, and it works with `Lightning Network`. But it is not for personal or legal identity.
+
 ## Additional Information
 
 * [Manual](docs/MANUAL.md) on how to use `torgap-sig-cli-rust`. This is an operational guide with example instructions.
