@@ -23,6 +23,7 @@ It is unlikely we’ll support `DIDcomm` as is, more likely something closer to 
 
 ## Additional Information
 
+* Still puzzled? Have a look at our [plain people's language](Torgap-made-easy.md) interview-like explanation of why our work is super relevant, with lots of analogies.
 * [Manual](docs/MANUAL.md) on how to use `torgap-sig-cli-rust`. This is an operational guide with example instructions.
 * [Signal protocol](https://en.wikipedia.org/wiki/Signal_Protocol#Properties) properties explained.
 * [Opentimestamps](opentimestamps.org) aims to be a standard format for blockchain timestamping, most and for all bitcoin. 
