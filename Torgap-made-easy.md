@@ -82,7 +82,7 @@ If we'd use an `API` we would have to trust the service party. Before you get st
 **It’s like the connectors on the back of your TV**. They let you plug in a device from another manufacturer (DVD player, games console, set-top box) and both the TV and the device know what to do next. The connectors are the interface that lets one machine talk to another.<br/>   
 **It's like a waiter at a restaurant**. The waiter takes a guests' food order, then delivers to the food order to the kitchen staff. The kitchen staff then makes the food, hands the food to the waiter, and then the waiter delivers the correct food order back to the guest. <br/>[Source](https://sidewaysdictionary.com/#/term/API)
 
-So for our purpose API and external service just won't do.
+So for our purpose API and external service just won't do. Because we have to trust third parties and our identity could be revealed in the process to others.
 
 ### Okay, got it: it's great, it's new, it's relevant, but can I eat, can I wear it, can I ride it?
 
@@ -90,16 +90,21 @@ I agree we need to explain some better use cases.
 
 `Spotbit` is one of the first. “This price data was collected and verified by this price service on this date”
 
-But later we can do other kinds of service “I will store 10k encrypted object you give me for 1000 satoshi an hour” among with statements from other “I used this service successfully for x days” and one of those ids you trust.
-These are `virtual credentials`, a kind of digital certificates; issued 'now'. Go the [definition section](#VC---Virtual-Credentials) for what Virtual Credentials are. **What is certificate?** Two analogies: <br/>
+But later we can do other kinds of service:<br/>
+“I will store 10k encrypted object you give me for 1000 satoshi an hour” among with statements from other “I used this service successfully for x days” and one of those ids you trust.<br/>
+**Programcode and software distribution signing** is another possible area of application. The problem we could solve is that digital signatures tend to expire, long before the proof of the signature is needed.
+
+In fact through bc-torgap flow anonymous `virtual credentials`, a kind of digital certificates; issued 'now' by unknown - but trusted parties. Go the [definition section](#VC---Virtual-Credentials) for what Virtual Credentials are. **What is certificate?** Two analogies: <br/>
 **It’s like a passport** – issued by a central authority (the passport office / certificate authority), who independently establishes your identity and gives you a passport to prove it to others. Like a passport, a certificate will have in-built security and anti-fraud features.<br/>
 **It’s like a license plate.** A central authority issues the numbers and ensures each license plate number is matched to the right vehicle. Both drivers and police trust this third party to keep the right details on file.<br/>[Source](https://sidewaysdictionary.com/#/term/certificate)
 
 It’s a hard problem too, as there are are some substantial arguments about how to do this safely by the `LESS` community.
 
-In case of Legally Enabled Self-Sovereign Identity (LESS) it starts with control of your keys. A government can revoke your VC authorization to drive, but not your other VCs to receive medical care or do business. Better than the current. Keep a separation of interests.
+In case of Legally Enabled Self-Sovereign Identity (LESS) it starts with control of your keys. A government can revoke your `VC` authorization to drive, but not your other VCs to receive medical care or do business. Better than the current. Keep a separation of interests.
 
-It integrates well with the Lightning Network. Especially because we're able to let sats flow alongside, for services and their VCs
+### Can I earn money with bc-torgap?
+
+It integrates well with the Lightning Network. Especially because we're able to simultaneously let money (satoshis) flow alongside, for services and their VCs (e.g. "quality is good").
 
 ## Definitions
 In Alphabetic order
@@ -111,7 +116,7 @@ Anonymity describes situations where the acting person's identity is unknown. So
 A new type of globally unique identifier (URI) that does not require a centralized registration authority because control of the identifier can be proved using cryptography. 
 
 #### LESS identity - Legally Enable Self-sovereign identity
-{}
+{TBW}
 
 #### Privacy
 Privacy is a fundamental right, essential to autonomy and the protection of human dignity, serving as the foundation upon which many other human rights are built.
@@ -121,7 +126,7 @@ Privacy enables us to create barriers and manage boundaries to protect ourselves
 #### Pseudonymity
 Pseudonymity is the state of being identified by a pseudonym, that is by a name, which is not somebody’s real, correct name. Furthermore, being pseudonymous in virtual communities means bearing a set of false distinctive characteristics, such as name and title that are used for identification and to some degree for interaction of the person concerned. The property that a user cannot be identified within the total user population, but her interactions nevertheless be tracked. [Source](https://www.igi-global.com/dictionary/privacy-digital-world/23971)
 
-# SSI - Self-Sovereign Identity
+#### SSI - Self-Sovereign Identity
 Is the concept that people and businesses can store their own identity data on their own devices, and provide it efficiently to those who need to validate it, without relying on a central repository of identity data.
 [Know more](https://bitsonblocks.net/2017/05/17/gentle-introduction-self-sovereign-identity/): A gentle introduction to self-sovereign identity
 
