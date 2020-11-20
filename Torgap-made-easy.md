@@ -2,11 +2,11 @@
 This page is an attempt to explain the benefits and urgency of `bc-torgap` in plain people's language with lots of analogies and further reading. <br/>
 If you get lost, try the [definitions](#Definitions) below.
 
-### What’s the problem bc-torgap is going to solve?
+### What’s the problem bc-torgap is going to solve? <img src="./Images/emoji-2744064_1280.png" alt="Smiley asking questions and being confused" border="0" width="50">
 
 It is a `DID`, a Decentralized Identifier. An identifier you can, with a hidden service, say ‘make verifiable statements about things’, in particular other hidden services, for example: “Hidden service X delivered quality services”
 
-### Wait a minute, ‘hidden service?’, what is that?
+### Wait a minute, ‘hidden service?’, what is that? <img src="./Images/emoji-2744064_1280.png" alt="Smiley asking questions and being confused" border="0" width="50">
 
 A `Tor hidden service` needs some [explanation](https://blog.torproject.org/nine-questions-about-hidden-services) but briefly defined : 
 
@@ -18,7 +18,7 @@ But Tor is so [much more](https://www.torproject.org), you have to look into tha
 
 As an example you could call the hidden service Blockchain Commons [Spotbit]( https://github.com/BlockchainCommons/spotbit), that anonymously services the answer to the question _what the current bitcoin price is_. And the service answers (not surprisingly) “the current bitcoin price is Y.”
 
-### So what’s the whole point if it does expected things?!
+### So what’s the whole point if it does expected things?! <img src="./Images/emoji-2744064_1280.png" alt="Smiley asking questions and being confused" border="0" width="50">
 
 Sorry, it’s complicated, please hold on. What just happened is *a marvelous mix of technologies* we’ve had for some years already. We just needed time to put them together the right way. The building blocks just need to be assembled in an unprecedented way. <br/>
 Features: <br/>
@@ -28,7 +28,7 @@ Features: <br/>
 4.	Self-sovereignty. The hidden service runs from your server (or that of your choice), saves to your database, and allows you to choose the details of the  services relevant to your business or private life.
 5.	Verifiable statements. You can offer statements that are shareable, and someone can confirm the statement without revealing what statement they are confirming. It's a kind of `zero knowledge proof`.
 
-### "Wow, impressive list, but that last feature description ruined it!" 
+### "Wow, impressive list, but that last feature description ruined it!" <img src="./Images/emoji-2744064_1280.png" alt="Smiley asking questions and being confused" border="0" width="50">
 This is total gibberish “confirm statement without revealing what statement; someone, they”, etc. *What have you been smoking?!* <br/>
 Sorry again, no soft drugs involved. Let me try to give you a real life example:
 
@@ -36,18 +36,18 @@ Sorry again, no soft drugs involved. Let me try to give you a real life example:
 
 And it’s getting even better! _"These are some other keys you can use to communicate with me”_ is an important use. _“You can leave messages addressed to anonymous user Z here”_ is another feature.
 
-### "Man, you nerds are scary folks. Can't you explain it to me , using an every day's tool, like a box of matches."
+### "Man, you nerds are scary folks. Can't you explain it to me , using an every day's tool, like a box of matches." <img src="./Images/emoji-2744064_1280.png" alt="Smiley asking questions and being confused" border="0" width="50">
 
 Alright, a box of matches. Let me see....
 
 ##### Suppose every person colors the matches uniquely for him/herself. Consider your own matches as magic sticks that are able to encrypt messages to you. Now give the matches to people that want to send secret messages to you. The sender is able to send these secrets by magically touching letters by one of your personal magic sticks (your matches given to them). And also suppose that you alone could read the message because it has been magically touched by one of your personal matches. But not earlier then when the issued stick, comes back with the scrambled letter and returns in your matchbox. People in a network could make a chain secret letters. Both the sender and recipient can burn the match, it becomes useless after that, the magic disappears. As soon as a recipient burns a matchbox the chain is broken and letters forever unreadable.
 The matchbox is a secret master key, that has public keys (matches). 
 
-### "OK, so your new _identity thing_ is known by the government and the banks and the police?"
+### "OK, so your new _identity thing_ is known by the government and the banks and the police?" <img src="./Images/emoji-2744064_1280.png" alt="Smiley asking questions and being confused" border="0" width="50">
 
 Bc-torgap wants to avoid `subject=person` statements for now. That means, we do not facilitate what so many other solutions instead will do: reveal counterparties in a group of people that interact with eachother. *We don't reveal people's identities to others.*
 
-### Why is that a problem? I am not interested in anonymity, I’ve got nothing to hide!
+### Why is that a problem? I am not interested in anonymity, I’ve got nothing to hide! <img src="./Images/emoji-2744064_1280.png" alt="Smiley asking questions and being confused" border="0" width="50">
 
 This is a well-know misconception. A few analogies of anonymity:
 `Anonymization` is like pixelating someone’s face in a video. You can still hear what they say, but you don’t know who they are. It’s like footprints in the sand. After a period of time (that depends on the policy of your search engine), a wave comes in and wipes out each visitor’s footprints. [Source](https://sidewaysdictionary.com/#/term/anonymization)
@@ -60,14 +60,14 @@ What you’ve got to hide, are the wrong conclusions drawn from the sensitive da
 This is the whole point of sovereignty. `Self-sovereignty` you are for an important part in charge of your own data; like you are of your own body and mind.
 
 
-### We're getting lost; where comes 'bc-torgap' into play? <img src="./Images/emoji-2744064_1280.png" alt="Smiley asking questions and being confused" border="0" width="100">
+### We're getting lost; where comes 'bc-torgap' into play? <img src="./Images/emoji-2744064_1280.png" alt="Smiley asking questions and being confused" border="0" width="50">
 
 
 After you get used to secret keys to protect yourself, to enable yourself in the digital world and to control digital data and transactions with these keys. 
 
 “These are some other keys you can use to communicate with me” is an important use.
 
-### Keys, keys, keys, I get sick of keys and passwords and such!
+### Keys, keys, keys, I get sick of keys and passwords and such! <img src="./Images/emoji-2744064_1280.png" alt="Smiley asking questions and being confused" border="0" width="50">
 Now it’s our turn to ask _‘what have you been smoking?’_. Or for those who have lived under a rock, a short introduction to our 21th century world:
 
 {LINK TBW} 
@@ -78,7 +78,7 @@ That leads to the *new digital world’s* version of the example already laid ou
 
 ##### “Right now, if I sign something and give it to you, and you give it to John, John doesn’t know you just didn’t create a secret KEY of your own. He needs to independently verify it.
 
-### Phew, why not call a server that neatly does it for you, all your bc-torgapping?
+### Phew, why not call a server that neatly does it for you, all your bc-torgapping? <img src="./Images/emoji-2744064_1280.png" alt="Smiley asking questions and being confused" border="0" width="50">
 
 If we'd use an `API` we would have to trust the service party. Before you get started about APIs, here some analogies what an API does:<br/>
 **It’s like the connectors on the back of your TV**. They let you plug in a device from another manufacturer (DVD player, games console, set-top box) and both the TV and the device know what to do next. The connectors are the interface that lets one machine talk to another.<br/>   
@@ -86,7 +86,7 @@ If we'd use an `API` we would have to trust the service party. Before you get st
 
 So for our purpose API and external service just won't do. Because we have to trust third parties and our identity could be revealed in the process to others.
 
-### Okay, got it: it's great, it's new, it's relevant, but can I eat, can I wear it, can I ride it?
+### Okay, got it: it's great, it's new, it's relevant, but can I eat, can I wear it, can I ride it? <img src="./Images/emoji-2744064_1280.png" alt="Smiley asking questions and being confused" border="0" width="50">
 
 I agree we need to explain some better use cases.
 
@@ -104,7 +104,7 @@ It’s a hard problem too, as there are are some substantial arguments about how
 
 In case of Legally Enabled Self-Sovereign Identity (LESS) it starts with control of your keys. A government can revoke your `VC` authorization to drive, but not your other VCs to receive medical care or do business. Better than the current. Keep a separation of interests.
 
-### Can I earn money with bc-torgap?
+### Can I earn money with bc-torgap? <img src="./Images/emoji-2744064_1280.png" alt="Smiley asking questions and being confused" border="0" width="50">
 
 It integrates well with the Lightning Network. Especially because we're able to simultaneously let money (satoshis) flow alongside, for services and their VCs (e.g. "quality is good").
 
