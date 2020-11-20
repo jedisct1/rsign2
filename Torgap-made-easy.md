@@ -1,10 +1,10 @@
 # Torgap made easy
-This page is an attempt to explain the benefits and urgency of `bc-torgap` in plain people's language with lots of analogies and further reading.
+This page is an attempt to explain the benefits and urgency of `bc-torgap` in plain people's language with lots of analogies and further reading. <br/>
 If you get lost, try the [definitions](#Definitions) below.
 
 ### What’s the problem bc-torgap is going to solve?
 
-It is a `DID`, a Decentralized Identifier. And Identifier You can, with a hidden service, say ‘make verifiable statements about things’, in particular other hidden services, for example: “Hidden service X delivered quality services”
+It is a `DID`, a Decentralized Identifier. An identifier you can, with a hidden service, say ‘make verifiable statements about things’, in particular other hidden services, for example: “Hidden service X delivered quality services”
 
 ### Wait a minute, ‘hidden service?’, what is that?
 
@@ -12,16 +12,16 @@ A `Tor hidden service` needs some [explanation](https://blog.torproject.org/nine
 
 A "hidden service" is a site you visit or a service you use that uses Tor technology to stay secure and, if the owner wishes, anonymous. 
 
-Tor is well known for its browser described with an analogy this way:
-"It’s like the Ray-Ban Wayfarer of browsers. No one can see what you’re watching. And it makes you look cool and enigmatic." [Source](https://sidewaysdictionary.com/#/term/tor)
-But Tor is so [much more](), you have to look into that seperately one day.
+Tor is well known for its browser described with an analogy this way: <br/>
+"It’s like the Ray-Ban Wayfarer of browsers. No one can see what you’re watching. And it makes you look cool and enigmatic." [Source](https://sidewaysdictionary.com/#/term/tor) <br/>
+But Tor is so [much more](https://www.torproject.org), you have to look into that seperately one day.
 
 As an example you could call the hidden service Blockchain Commons [Spotbit]( https://github.com/BlockchainCommons/spotbit), that anonymously services the answer to the question _what the current bitcoin price is_. And the service answers (not surprisingly) “the current bitcoin price is Y.”
 
 ### So what’s the whole point if it does expected things?!
 
-Sorry, it’s complicated, please hold on. What just happened is *a marvelous mix of technologies* we’ve had for some years already. We just needed time to put them together the right way. The building blocks just need to be assembled in an unprecedented way.
-Features:
+Sorry, it’s complicated, please hold on. What just happened is *a marvelous mix of technologies* we’ve had for some years already. We just needed time to put them together the right way. The building blocks just need to be assembled in an unprecedented way. <br/>
+Features: <br/>
 1.	Privacy.  the only way to anoymize is via a Tor connection.
 2.	Speed.  Provide information more quickly and at a higher rate due to the use of a local database.
 3.	Reliability. Aggregrate information, making your data more trustworthy.
@@ -29,7 +29,7 @@ Features:
 5.	Verifiable statements. You can offer statements that are shareable, and someone can confirm the statement without revealing what statement they are confirming. It's a kind of `zero knowledge proof`.
 
 ### "Wow, impressive list, but that last feature description ruined it!" 
-This is total gibberish “confirm statement without revealing what statement; someone, they”, etc. *What have you been smoking?!*
+This is total gibberish “confirm statement without revealing what statement; someone, they”, etc. *What have you been smoking?!* <br/>
 Sorry again, no soft drugs involved. Let me try to give you a real life example:
 
 ##### Right now if I sign a letter on paper with my signature and give it to you, and you give it to John, John doesn’t know you just didn’t create a signature of your own. He needs to independently verify it. Now suppose we just solved that ages old problem? That John doesn’t need to verify anymore, as long as he trusts the chain of digital signatures that is inherently associated with bc-torgap.
@@ -59,7 +59,9 @@ What you’ve got to hide, are the wrong conclusions drawn from the sensitive da
 
 This is the whole point of sovereignty. `Self-sovereignty` you are for an important part in charge of your own data; like you are of your own body and mind.
 
-### We're getting lost; where comes 'bc-torgap' into play?
+
+### We're getting lost; where comes 'bc-torgap' into play? <img src="./Images/emoji-2744064_1280.png" alt="Smiley asking questions and being confused" border="0" width="100">
+
 
 After you get used to secret keys to protect yourself, to enable yourself in the digital world and to control digital data and transactions with these keys. 
 
