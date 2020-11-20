@@ -1,3 +1,4 @@
+# Torgap made easy
 This page is an attempt to explain the benefits and urgency of `bc-torgap` in plain people's language with lots of analogies and further reading.
 If you get lost, try the [definitions](#Definitions) below.
 
@@ -31,7 +32,7 @@ Features:
 This is total gibberish “confirm statement without revealing what statement; someone, they”, etc. *What have you been smoking?!*
 Sorry again, no soft drugs involved. Let me try to give you a real life example:
 
-###### Right now if I sign a letter on paper with my signature and give it to you, and you give it to John, John doesn’t know you just didn’t create a signature of your own. He needs to independently verify it. Now suppose we just solved that ages old problem? That John doesn’t need to verify anymore, as long as he trusts the chain of digital signatures that is inherently associated with bc-torgap.
+##### Right now if I sign a letter on paper with my signature and give it to you, and you give it to John, John doesn’t know you just didn’t create a signature of your own. He needs to independently verify it. Now suppose we just solved that ages old problem? That John doesn’t need to verify anymore, as long as he trusts the chain of digital signatures that is inherently associated with bc-torgap.
 
 And it’s getting even better! _"These are some other keys you can use to communicate with me”_ is an important use. _“You can leave messages addressed to anonymous user Z here”_ is another feature.
 
@@ -39,14 +40,14 @@ And it’s getting even better! _"These are some other keys you can use to commu
 
 Alright, a box of matches. Let me see....
 
-###### Suppose every person colors the matches uniquely for him/herself. Consider your own matches as magic sticks that are able to encrypt messages to you. Now give the matches to people that want to send secret messages to you. The sender is able to send these secrets by magically touching letters by one of your personal magic sticks (your matches given to them). And also suppose that you alone could read the message because it has been magically touched by one of your personal matches. But not earlier then when the issued stick, comes back with the scrambled letter and returns in your matchbox. People in a network could make a chain secret letters. Both the sender and recipient can burn the match, it becomes useless after that, the magic disappears. As soon as a recipient burns a matchbox the chain is broken and letters forever unreadable.
+##### Suppose every person colors the matches uniquely for him/herself. Consider your own matches as magic sticks that are able to encrypt messages to you. Now give the matches to people that want to send secret messages to you. The sender is able to send these secrets by magically touching letters by one of your personal magic sticks (your matches given to them). And also suppose that you alone could read the message because it has been magically touched by one of your personal matches. But not earlier then when the issued stick, comes back with the scrambled letter and returns in your matchbox. People in a network could make a chain secret letters. Both the sender and recipient can burn the match, it becomes useless after that, the magic disappears. As soon as a recipient burns a matchbox the chain is broken and letters forever unreadable.
 The matchbox is a secret master key, that has public keys (matches). 
 
 ### "OK, so your new _identity thing_ is known by the government and the banks and the police?"
 
 Bc-torgap wants to avoid `subject=person` statements for now. That means, we do not facilitate what so many other solutions instead will do: reveal counterparties in a group of people that interact with eachother. *We don't reveal people's identities to others.*
 
-### Why is that a problem? I am not interested in anonymity?, I’ve got nothing to hide!
+### Why is that a problem? I am not interested in anonymity, I’ve got nothing to hide!
 
 This is a well-know misconception. A few analogies of anonymity:
 `Anonymization` is like pixelating someone’s face in a video. You can still hear what they say, but you don’t know who they are. It’s like footprints in the sand. After a period of time (that depends on the policy of your search engine), a wave comes in and wipes out each visitor’s footprints. [Source](https://sidewaysdictionary.com/#/term/anonymization)
@@ -62,7 +63,7 @@ This is the whole point of sovereignty. `Self-sovereignty` you are for an import
 
 After you get used to secret keys to protect yourself, to enable yourself in the digital world and to control digital data and transactions with these keys. 
 
- “These are some other keys you can use to communicate with me” is an important use.
+“These are some other keys you can use to communicate with me” is an important use.
 
 ### Keys, keys, keys, I get sick of keys and passwords and such!
 Now it’s our turn to ask _‘what have you been smoking?’_. Or for those who have lived under a rock, a short introduction to our 21th century world:
@@ -73,13 +74,13 @@ Now it’s our turn to ask _‘what have you been smoking?’_. Or for those who
 
 That leads to the *new digital world’s* version of the example already laid out above:
 
-###### “Right now, if I sign something and give it to you, and you give it to John, John doesn’t know you just didn’t create a secret KEY of your own. He needs to independently verify it.
+##### “Right now, if I sign something and give it to you, and you give it to John, John doesn’t know you just didn’t create a secret KEY of your own. He needs to independently verify it.
 
 ### Phew, why not call a server that neatly does it for you, all your bc-torgapping?
 
-If we'd use an `API` we would have to trust the service party. Before you start about APIs, here some analogies what an API does:
-*It’s like the connectors on the back of your TV*. They let you plug in a device from another manufacturer (DVD player, games console, set-top box) and both the TV and the device know what to do next. The connectors are the interface that lets one machine talk to another.
-*It's like a waiter at a restaurant*. The waiter takes a guests' food order, then delivers to the food order to the kitchen staff. The kitchen staff then makes the food, hands the food to the waiter, and then the waiter delivers the correct food order back to the guest. 
+If we'd use an `API` we would have to trust the service party. Before you get started about APIs, here some analogies what an API does:<br/>
+**It’s like the connectors on the back of your TV**. They let you plug in a device from another manufacturer (DVD player, games console, set-top box) and both the TV and the device know what to do next. The connectors are the interface that lets one machine talk to another.<br/>   
+**It's like a waiter at a restaurant**. The waiter takes a guests' food order, then delivers to the food order to the kitchen staff. The kitchen staff then makes the food, hands the food to the waiter, and then the waiter delivers the correct food order back to the guest. <br/>[Source](https://sidewaysdictionary.com/#/term/API)
 
 So for our purpose API and external service just won't do.
 
@@ -90,10 +91,15 @@ I agree we need to explain some better use cases.
 `Spotbit` is one of the first. “This price data was collected and verified by this price service on this date”
 
 But later we can do other kinds of service “I will store 10k encrypted object you give me for 1000 satoshi an hour” among with statements from other “I used this service successfully for x days” and one of those ids you trust.
+These are `virtual credentials`, a kind of digital certificates; issued 'now'. Go the [definition section](#VC---Virtual-Credentials) for what Virtual Credentials are. **What is certificate?** Two analogies: <br/>
+**It’s like a passport** – issued by a central authority (the passport office / certificate authority), who independently establishes your identity and gives you a passport to prove it to others. Like a passport, a certificate will have in-built security and anti-fraud features.<br/>
+**It’s like a license plate.** A central authority issues the numbers and ensures each license plate number is matched to the right vehicle. Both drivers and police trust this third party to keep the right details on file.<br/>[Source](https://sidewaysdictionary.com/#/term/certificate)
 
-It’s a hard problem too, as there are are some substantial arguments about how to do this safely by the LESS community.
+It’s a hard problem too, as there are are some substantial arguments about how to do this safely by the `LESS` community.
 
-In case of Legally Enabled Self-Sovereign Identity it starts with control of your keys. A government can revoke your VC authorization to drive, but not your other VCs to receive medical care or do business. Better than the current. Keep a separation of interests.
+In case of Legally Enabled Self-Sovereign Identity (LESS) it starts with control of your keys. A government can revoke your VC authorization to drive, but not your other VCs to receive medical care or do business. Better than the current. Keep a separation of interests.
+
+It integrates well with the Lightning Network. Especially because we're able to let sats flow alongside, for services and their VCs
 
 ## Definitions
 In Alphabetic order
@@ -103,6 +109,9 @@ Anonymity describes situations where the acting person's identity is unknown. So
 
 #### DID - Decentralized Identifier
 A new type of globally unique identifier (URI) that does not require a centralized registration authority because control of the identifier can be proved using cryptography. 
+
+#### LESS identity - Legally Enable Self-sovereign identity
+{}
 
 #### Privacy
 Privacy is a fundamental right, essential to autonomy and the protection of human dignity, serving as the foundation upon which many other human rights are built.
@@ -121,6 +130,9 @@ Is the concept that people and businesses can store their own identity data on t
 
 #### Tor hidden service
 A hidden service is a site you visit or a service you use that uses Tor technology to stay secure and, if the owner wishes, anonymous. 
+
+#### VC - Virtual credentials
+{TBW}
  
  #### ZKP - Zero Knowledge Proof
 Is a method to prove the data without actually revealing the data. The person you’re proving to, doesn’t learn anything more than the bare fact that you’re proving. [Know more](https://medium.com/@pranshurastogi/zero-knowledge-proofs-a-method-to-conserve-privacy-1b072222ac1a) and analogies.
