@@ -113,7 +113,7 @@ LESS is an abbreviation of Legally Enabled Self-Sovereign Identity. It is a grou
 
 In case of LESS it starts with control of your keys. A government can revoke your `VC` authorization to drive, but not your other VCs to receive medical care or do business. Better than the current. Keep a separation of interests.
 
-However in our vision, it has to be more of **MORE: "My Own Reputation Emerges"** ...from the web, securely, privately, sovereignly, and self-imposed.
+However in our vision, it has to be more of **MORE: "My Own-grown Reputation Emerges"** ...from the web, securely, privately, sovereignly, and self-imposed.
 
 LESS is the easier way to go, but you sell your a bit of your pure self-sovereign soul on the way. MORE is harder, stricter, more free and more authentic with regard to the word self-sovereign. Some LESS identity solutions are more like **'self-service' in a proprietary identity shop**.
 
