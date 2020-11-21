@@ -40,8 +40,7 @@ And it’s getting even better! You could say to anyone _"These are some other k
 
 Alright, a box of matches. Let me see....
 
-##### Suppose every person colors the matches uniquely for him/herself. Think of your own matches as magic sticks that are able to encrypt messages to you from someone else. Everybody in this fairy-tale world has sticks of people they trust. 
-<img src="./Images/matches-match-match-green-pink-match.jpg" alt="Colored matches" border="10" width="200" style="float:left"><br/>
+##### Suppose every person colors the matches uniquely for him/herself. Think of your own matches as magic sticks that are able to encrypt messages to you from someone else. Everybody in this fairy-tale world has sticks of people they trust. <img src="./Images/matches-match-match-green-pink-match.jpg" alt="Colored matches" border="10" width="200" style="float:left">
 ##### Now you give the matches to people, who want to send secret messages to you. Scrambled encrypted notes, unreadible for others. The sender is able to send these secrets by magically touching letters by one of your personal magic sticks. These are the matches you gave to them earlier on). The letter miraculously scrambles into unreadible goo. 
 ##### Lastly, suppose that you alone could decrypt and read the message after it has been magically touched by one of your personal matches. This is accomplished by another pieces of magic: when the issued stick, that comes back combined with the scrambled letter goes back into the matchbox where it came from. 
 ##### People in a network could make a chain of secret letters this way. Senders can burn  matches. A match becomes useless after being lit: the magic disappears. As soon as a recipient burns a matchbox, all the matches are rendered useless, the chain is broken. The letters encrypted with these matches in the past, will be are forever unreadable.
