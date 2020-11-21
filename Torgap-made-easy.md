@@ -113,11 +113,11 @@ LESS is an abbreviation of Legally Enabled Self-Sovereign Identity. It is a grou
 
 In case of LESS it starts with control of your keys. A government can revoke your `VC` authorization to drive, but not your other VCs to receive medical care or do business. Better than the current. Keep a separation of interests.
 
-However in our vision, it has to be more of **MORE: "My Own Reputation Emerges"** from the web, securely, privately, sovereignly, and self-imposed.
+However in our vision, it has to be more of **MORE: "My Own Reputation Emerges"** ...from the web, securely, privately, sovereignly, and self-imposed.
 
-LESS is the easier way to go, but you sell your a bit of your pure self-sovereign soul on the way. MORE is harder, stricter, more free and more authentic.
+LESS is the easier way to go, but you sell your a bit of your pure self-sovereign soul on the way. MORE is harder, stricter, more free and more authentic with regard to the word self-sovereign. Some LESS identity solutions are more like **'self-service' in a proprietary identity shop**.
 
-### Touching, but time's running out, can I earn money with bc-torgap? <img src="./Images/emoji-2744064_1280.png" alt="Smiley asking questions and being confused" border="0" width="50">
+### Touching, all of that, but hey mate, time's running out... can I earn money with bc-torgap? <img src="./Images/emoji-2744064_1280.png" alt="Smiley asking questions and being confused" border="0" width="50">
 
 It integrates well with the Lightning Network. Especially because we're able to simultaneously let money (satoshis) flow alongside, for services and their VCs (e.g. "quality is good").
 
