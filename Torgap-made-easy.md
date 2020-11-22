@@ -4,19 +4,19 @@ If you get lost, try the [definitions](#Definitions) below.
 
 ### What’s the problem bc-torgap is going to solve? <img src="./Images/emoji-2744064_1280.png" alt="Smiley asking questions and being confused" border="0" width="50">
 
-It is a `DID`, a Decentralized Identifier. An identifier you can, with a hidden service, say ‘make verifiable statements about things’, in particular other hidden services, for example: “Hidden service X delivered quality services”
+It is a `DID`, a Decentralized Identifier. With an identifier you can, through a `hidden service`, say ‘make verifiable statements about things’, in particular other hidden services, for example: “Hidden service X delivered quality services”
 
 ### Wait a minute, ‘hidden service?’, what is that? <img src="./Images/emoji-2744064_1280.png" alt="Smiley asking questions and being confused" border="0" width="50">
 
 A `Tor hidden service` needs some [explanation](https://blog.torproject.org/nine-questions-about-hidden-services) but briefly defined : 
 
-A "hidden service" is a site you visit or a service you use that uses Tor technology to stay secure and, if the owner wishes, anonymous. 
+A "hidden service" is a site you visit, or a service you use, that uses Tor technology to stay secure and, if the owner wishes, anonymous. 
 
 Tor is well known for its browser described with an analogy this way: <br/>
-"It’s like the Ray-Ban Wayfarer of browsers. No one can see what you’re watching. And it makes you look cool and enigmatic." [Source](https://sidewaysdictionary.com/#/term/tor) <br/>
-But Tor is so [much more](https://www.torproject.org), you have to look into that seperately one day.
+"It’s like the Ray-Ban Wayfarer of browsers. These are sun glasses through no one can see what you’re watching. And it makes you look cool and mysterious." [Source](https://sidewaysdictionary.com/#/term/tor) <br/>
+But Tor is so [much more](https://www.torproject.org). You have to look into that seperately one day.
 
-As an example you could call the hidden service Blockchain Commons [Spotbit]( https://github.com/BlockchainCommons/spotbit), that anonymously services the answer to the question _what the current bitcoin price is_. And the service answers (not surprisingly) “the current bitcoin price is Y.”
+<img src="./Images/spotbit-screen.jpg" alt="Spotbit logo and example chart" border="0" width="300"> As an example, you could call the hidden service Blockchain Commons [Spotbit]( https://github.com/BlockchainCommons/spotbit), that anonymously answers the question _what's the current bitcoin price?_. And the service responds (not surprisingly) “the current bitcoin price is Y.”
 
 ### So what’s the whole point if it does expected things?! <img src="./Images/emoji-2744064_1280.png" alt="Smiley asking questions and being confused" border="0" width="50">
 
@@ -29,19 +29,23 @@ Features: <br/>
 5.	Verifiable statements. You can offer statements that are shareable, and someone can confirm the statement without revealing what statement they are confirming. It's a kind of `zero knowledge proof`.
 
 ### "Wow, impressive list, but that last feature description ruined it!" <img src="./Images/emoji-2744064_1280.png" alt="Smiley asking questions and being confused" border="0" width="50">
-This is total gibberish “confirm statement without revealing what statement; someone, they”, etc. *What have you been smoking?!* <br/>
+#### This is total gibberish “confirm statement without revealing what statement; someone, they”, etc. *What have you been smoking?!* 
 Sorry again, no soft drugs involved. Let me try to give you a real life example:
 
-##### Right now if I sign a letter on paper with my signature and give it to you, and you give it to John, John doesn’t know you just didn’t create a signature of your own. He needs to independently verify it. Now suppose we just solved that ages old problem? That John doesn’t need to verify anymore, as long as he trusts the chain of digital signatures that is inherently associated with bc-torgap.
+##### Right now if I sign a letter on paper with my signature and give it to you, and you give it to John, John doesn’t know you just didn’t create a signature of your own. He needs to independently verify it. Now suppose we just solved that ages old problem: John doesn’t need to verify anymore, as long as he trusts the chain of digital signatures that is inherently associated with bc-torgap.
 
-And it’s getting even better! _"These are some other keys you can use to communicate with me”_ is an important use. _“You can leave messages addressed to anonymous user Z here”_ is another feature.
+And it’s getting even better! You could say to anyone _"These are some other keys you can use to communicate with me”_ This is an important use. Or you could write _“You can leave messages addressed to anonymous user Z here”_. That's another feature.
 
 ### "Man, you nerds are scary folks. Can't you explain it to me , using an every day's tool, like a box of matches." <img src="./Images/emoji-2744064_1280.png" alt="Smiley asking questions and being confused" border="0" width="50">
 
 Alright, a box of matches. Let me see....
 
-##### Suppose every person colors the matches uniquely for him/herself. Consider your own matches as magic sticks that are able to encrypt messages to you. Now give the matches to people that want to send secret messages to you. The sender is able to send these secrets by magically touching letters by one of your personal magic sticks (your matches given to them). And also suppose that you alone could read the message because it has been magically touched by one of your personal matches. But not earlier then when the issued stick, comes back with the scrambled letter and returns in your matchbox. People in a network could make a chain secret letters. Both the sender and recipient can burn the match, it becomes useless after that, the magic disappears. As soon as a recipient burns a matchbox the chain is broken and letters forever unreadable.
-The matchbox is a secret master key, that has public keys (matches). 
+##### Suppose every person colors the matches uniquely for him/herself. Think of your own matches as magic sticks that are able to encrypt messages to you from someone else. Everybody in this fairy-tale world has sticks of people they trust. <img src="./Images/matches-match-match-green-pink-match.jpg" alt="Colored matches" border="10" width="200" style="float:left">
+##### Now you give the matches to people, who want to send secret messages to you. Scrambled encrypted notes, unreadible for others. The sender is able to send these secrets by magically touching letters by one of your personal magic sticks. These are the matches you gave to them earlier on). The letter miraculously scrambles into unreadible goo. 
+##### Lastly, suppose that you alone could decrypt and read the message after it has been magically touched by one of your personal matches. This is accomplished by another pieces of magic: when the issued stick, that comes back combined with the scrambled letter goes back into the matchbox where it came from. 
+##### People in a network could make a chain of secret letters this way. Senders can burn  matches. A match becomes useless after being lit: the magic disappears. As soon as a recipient burns a matchbox, all the matches are rendered useless, the chain is broken. The letters encrypted with these matches in the past, will be are forever unreadable.
+
+The analogy with real world encryption: The matchbox is a secret master key, that has public keys (matches). Senders and receivers use digital messages through peer to peer networks.
 
 ### "OK, so your new _identity thing_ is known by the government and the banks and the police?" <img src="./Images/emoji-2744064_1280.png" alt="Smiley asking questions and being confused" border="0" width="50">
 
@@ -57,7 +61,7 @@ For those who have the opinion that they don't care about anonymity, we have a c
 If you don't care about anonymity, would you then care for your `privacy`? If so, then you care about anonymity too, because `privacy` is built on a foundation of anonymity)?
 What you’ve got to hide, are the wrong conclusions drawn from the sensitive data that describe you.
 
-This is the whole point of sovereignty. `Self-sovereignty` you are for an important part in charge of your own data; like you are of your own body and mind.
+This is the whole point of sovereignty. `Self-sovereignty` means that you are for an important part in charge of your own data; like you are in charge of your own body and mind.
 
 
 ### We're getting lost; where comes 'bc-torgap' into play? <img src="./Images/emoji-2744064_1280.png" alt="Smiley asking questions and being confused" border="0" width="50">
@@ -70,15 +74,14 @@ After you get used to secret keys to protect yourself, to enable yourself in the
 ### Keys, keys, keys, I get sick of keys and passwords and such! <img src="./Images/emoji-2744064_1280.png" alt="Smiley asking questions and being confused" border="0" width="50">
 Now it’s our turn to ask _‘what have you been smoking?’_. Or for those who have lived under a rock, a short introduction to our 21th century world:
 
-{LINK TBW} 
-1. The social dilemma
+1. [The social dilemma](https://www.thesocialdilemma.com); documentary film: The technology that connects us, also controls us.
 2. [Borderless world](https://www.citizen.org/article/privacy-needs-protection-in-a-borderless-world/)
 
-That leads to the *new digital world’s* version of the example already laid out above:
+If you still hang on, or caught up with me, these insights lead to the *new digital world’s* version of the example already laid out above:
 
 ##### “Right now, if I sign something and give it to you, and you give it to John, John doesn’t know you just didn’t create a secret KEY of your own. He needs to independently verify it.
 
-### Phew, why not call a server that neatly does it for you, all your bc-torgapping? <img src="./Images/emoji-2744064_1280.png" alt="Smiley asking questions and being confused" border="0" width="50">
+### Phew, why not call a server that neatly verifies for you, all your bc-torgapping? <img src="./Images/emoji-2744064_1280.png" alt="Smiley asking questions and being confused" border="0" width="50">
 
 If we'd use an `API` we would have to trust the service party. Before you get started about APIs, here some analogies what an API does:<br/>
 **It’s like the connectors on the back of your TV**. They let you plug in a device from another manufacturer (DVD player, games console, set-top box) and both the TV and the device know what to do next. The connectors are the interface that lets one machine talk to another.<br/>   
@@ -93,18 +96,28 @@ I agree we need to explain some better use cases.
 `Spotbit` is one of the first. “This price data was collected and verified by this price service on this date”
 
 But later we can do other kinds of service:<br/>
-“I will store 10k encrypted object you give me for 1000 satoshi an hour” among with statements from other “I used this service successfully for x days” and one of those ids you trust.<br/>
+**Store of digital value** : “I will store 10k encrypted object you give me for 1000 satoshi an hour” along with verifiable credential statements from others “I used this service successfully for x days” and one of those ids you trust.<br/>
 **Programcode and software distribution signing** is another possible area of application. The problem we could solve is that digital signatures tend to expire, long before the proof of the signature is needed.
 
-In fact through bc-torgap flow anonymous `virtual credentials`, a kind of digital certificates; issued 'now' by unknown - but trusted parties. Go the [definition section](#VC---Virtual-Credentials) for what Virtual Credentials are. **What is certificate?** Two analogies: <br/>
+In fact through **bc-torgap** flow anonymous `virtual credentials`, a kind of digital certificates; issued 'now' by unknown - but trusted parties. Go the [definition section](#VC---Virtual-Credentials) for what Virtual Credentials are. **What is certificate?** Two analogies: <br/>
 **It’s like a passport** – issued by a central authority (the passport office / certificate authority), who independently establishes your identity and gives you a passport to prove it to others. Like a passport, a certificate will have in-built security and anti-fraud features.<br/>
 **It’s like a license plate.** A central authority issues the numbers and ensures each license plate number is matched to the right vehicle. Both drivers and police trust this third party to keep the right details on file.<br/>[Source](https://sidewaysdictionary.com/#/term/certificate)
 
-It’s a hard problem too, as there are are some substantial arguments about how to do this safely by the `LESS` community.
+It’s a hard problem too, as there are some substantial arguments about how to do this safely by the `LESS` identity community. 
 
-In case of Legally Enabled Self-Sovereign Identity (LESS) it starts with control of your keys. A government can revoke your `VC` authorization to drive, but not your other VCs to receive medical care or do business. Better than the current. Keep a separation of interests.
+### More or less, less is more?! <img src="./Images/emoji-2744064_1280.png" alt="Smiley asking questions and being confused" border="0" width="50">
 
-### Can I earn money with bc-torgap? <img src="./Images/emoji-2744064_1280.png" alt="Smiley asking questions and being confused" border="0" width="50">
+"Yeah but, no but...." not this way. <img src="./Images/1427899713-vicky-pollard.gif" alt="Vickey Pollard Little Britain Yes but no but" border="0" width="300">
+
+LESS is an abbreviation of Legally Enabled Self-Sovereign Identity. It is a group of experts, organisations and users that believe in verifiable credentials issued by legal bodies as a way to overcome lots of practical problems that arise while assembling self-sovereignty.
+
+In case of LESS it starts with control of your keys. A government can revoke your `VC` authorization to drive, but not your other VCs to receive medical care or do business. Better than the current. Keep a separation of interests.
+
+However in our vision, it has to be more of **MORE: "My Own-grown Reputation Emerges"** ...from the web, securely, privately, sovereignly, and self-imposed.
+
+LESS is the easier way to go, but you sell your a bit of your pure self-sovereign soul on the way. MORE is harder, stricter, more free and more authentic with regard to the word self-sovereign. Some LESS identity solutions are more like **'self-service' in a proprietary identity shop**.
+
+### Touching, all of that, but hey mate, time's running out... can I earn money with bc-torgap? <img src="./Images/emoji-2744064_1280.png" alt="Smiley asking questions and being confused" border="0" width="50">
 
 It integrates well with the Lightning Network. Especially because we're able to simultaneously let money (satoshis) flow alongside, for services and their VCs (e.g. "quality is good").
 
@@ -139,7 +152,7 @@ Is the concept that people and businesses can store their own identity data on t
 A hidden service is a site you visit or a service you use that uses Tor technology to stay secure and, if the owner wishes, anonymous. 
 
 #### VC - Virtual credentials
-{TBW}
+Credentials are a part of our daily lives; driver's licenses are used to assert that we are capable of operating a motor vehicle, university degrees can be used to assert our level of education, and government-issued passports enable us to travel between countries. This specification provides a mechanism to express these sorts of credentials on the Web in a way that is cryptographically secure, privacy respecting, and machine-verifiable. [Know more](https://www.w3.org/TR/vc-data-model/)
  
  #### ZKP - Zero Knowledge Proof
 Is a method to prove the data without actually revealing the data. The person you’re proving to, doesn’t learn anything more than the bare fact that you’re proving. [Know more](https://medium.com/@pranshurastogi/zero-knowledge-proofs-a-method-to-conserve-privacy-1b072222ac1a) and analogies.
