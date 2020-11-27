@@ -75,6 +75,32 @@ pub fn parse_args<'a>() -> clap::ArgMatches<'a> {
                 ),
         )
         .subcommand(
+            SubCommand::with_name("export-to-tor-auth-keys")
+                .about("Convert secret to Tor V3 Client Authentication Keys")
+                .arg(
+                    Arg::with_name("sk_path")
+                        .short("s")
+                        .long("secret-key-path")
+                        .takes_value(true)
+                        .value_name("SECRET_KEY_PATH")
+                        .help("path to the secret key"),
+                )
+                .arg(
+                    Arg::with_name("force")
+                        .short("f")
+                        .long("force")
+                        .help("force generate a new keypair"),
+                )
+                .arg(
+                    Arg::with_name("tor-hostname")
+                        .short("")
+                        .long("tor-hostname")
+                        .takes_value(true)
+                        .help("Tor hostname string")
+                        .value_name("TOR_HOSTNAME_STRING"),
+                ),
+        )
+        .subcommand(
             SubCommand::with_name("verify")
                 .about("Verify a signed file with a given public key")
                 .arg(

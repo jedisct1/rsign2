@@ -11,6 +11,7 @@ use crate::helpers::*;
 use crate::parse_args::*;
 use hex::decode;
 use minisign::*;
+use std::fs;
 use std::io::Write;
 use std::path::{Path, PathBuf};
 
@@ -64,6 +65,52 @@ force this operation.",
     pk_writer.flush()?;
     sk_writer.flush()?;
     Ok(kp)
+}
+
+pub fn cmd_convert_to_tor_auth_keys<P, Q, W>(
+    force: bool,
+    tor_sk_path: P,
+    tor_pk_path: Q,
+    sk_path: W,
+    hostname: &str,
+) -> Result<bool>
+where
+    P: AsRef<Path>,
+    Q: AsRef<Path>,
+    W: AsRef<Path>,
+{
+    let tor_sk_path = tor_sk_path.as_ref();
+    let tor_pk_path = tor_pk_path.as_ref();
+
+    if tor_sk_path.exists() || tor_pk_path.exists() {
+        if !force {
+            return Err(PError::new(
+                ErrorKind::Io,
+                "Exporting keys aborted:\n
+If you want to overwrite the existing Tor v3 client authentication keys, add the -f switch to\n
+force this operation."
+                    .to_string(),
+            ));
+        } else {
+            if tor_sk_path.exists() {
+                std::fs::remove_file(&tor_sk_path)?;
+            }
+            if tor_pk_path.exists() {
+                std::fs::remove_file(&tor_pk_path)?;
+            }
+        }
+    }
+
+    let sk = SecretKey::from_file(sk_path, None)?;
+
+    let mut sk_writer = create_file(&tor_sk_path, 0o666)?;
+    let mut pk_writer = create_file(&tor_pk_path, 0o666)?;
+
+    convert_secret_to_tor_auth_keys(&mut sk_writer, &mut pk_writer, &hostname, sk)?;
+
+    pk_writer.flush()?;
+    sk_writer.flush()?;
+    Ok(true)
 }
 
 pub fn cmd_convert_to_onion_keys<P, Q, Z, W>(
@@ -345,6 +392,38 @@ fn run(args: clap::ArgMatches) -> Result<()> {
 
         cmd_convert_to_onion_keys(force, &tor_sk_path, &tor_pk_path, &tor_onion_path, &sk_path)?;
 
+        Ok(())
+    } else if let Some(onion) = args.subcommand_matches("export-to-tor-auth-keys") {
+        let force = onion.is_present("force");
+        let sk_path = get_sk_path(onion.value_of("sk_path"))?;
+
+        let mut tor_sk_path = sk_path.clone();
+        tor_sk_path.pop();
+        tor_sk_path.push(SIG_DEFAULT_TOR_CLIENT_SK_FILE);
+
+        let mut tor_pk_path = sk_path.clone();
+        tor_pk_path.pop();
+        tor_pk_path.push(SIG_DEFAULT_TOR_CLIENT_PK_FILE);
+
+        let mut hostname_path = tor_sk_path.clone();
+        hostname_path.pop();
+        hostname_path.push(SIG_DEFAULT_TORONIONFILE);
+
+        let hostname = {
+            let hname: String;
+            if let Some(host) = onion.value_of("tor-hostname") {
+                hname = String::from(host);
+            } else if let Ok(host) = fs::read_to_string(hostname_path) {
+                hname = String::from(host);
+            } else {
+                return Err(PError::new(
+                    ErrorKind::Io,
+                    "Error: No Tor hostname provided".to_string(),
+                ));
+            };
+            hname
+        };
+        cmd_convert_to_tor_auth_keys(force, &tor_sk_path, &tor_pk_path, &sk_path, &hostname[..])?;
         Ok(())
     } else if let Some(sign_action) = args.subcommand_matches("sign") {
         let sk_path = get_sk_path(sign_action.value_of("sk_path"))?;
