@@ -8,7 +8,7 @@ pub fn parse_args<'a>() -> clap::ArgMatches<'a> {
         .about("Rust implementation of minisign")
         .subcommand(
             SubCommand::with_name("generate")
-                .about("Generate public and private keys")
+                .about("Generate minisign public and secret keys")
                 .arg(
                     Arg::with_name("pk_path")
                         .short("p")
@@ -58,7 +58,7 @@ pub fn parse_args<'a>() -> clap::ArgMatches<'a> {
         )
         .subcommand(
             SubCommand::with_name("export-to-onion-keys")
-                .about("Convert secret to Tor hidden service keys and hostname")
+                .about("Convert minisign secret key to Tor hidden service keys and hostname")
                 .arg(
                     Arg::with_name("sk_path")
                         .short("s")
@@ -76,7 +76,7 @@ pub fn parse_args<'a>() -> clap::ArgMatches<'a> {
         )
         .subcommand(
             SubCommand::with_name("export-to-tor-auth-keys")
-                .about("Convert secret to Tor V3 Client Authentication Keys")
+                .about("Convert minisign secret key to Tor V3 Client Authentication Keys")
                 .arg(
                     Arg::with_name("sk_path")
                         .short("s")
@@ -98,6 +98,24 @@ pub fn parse_args<'a>() -> clap::ArgMatches<'a> {
                         .takes_value(true)
                         .help("Tor hostname string")
                         .value_name("TOR_HOSTNAME_STRING"),
+                ),
+        )
+        .subcommand(
+            SubCommand::with_name("generate-did")
+                .about("Generate DID document from a minisign secret key")
+                .arg(
+                    Arg::with_name("sk_path")
+                        .short("s")
+                        .long("secret-key-path")
+                        .takes_value(true)
+                        .value_name("SECRET_KEY_PATH")
+                        .help("path to the secret key"),
+                )
+                .arg(
+                    Arg::with_name("force")
+                        .short("f")
+                        .long("force")
+                        .help("force generate a new keypair"),
                 ),
         )
         .subcommand(

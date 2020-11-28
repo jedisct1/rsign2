@@ -425,6 +425,16 @@ fn run(args: clap::ArgMatches) -> Result<()> {
         };
         cmd_convert_to_tor_auth_keys(force, &tor_sk_path, &tor_pk_path, &sk_path, &hostname[..])?;
         Ok(())
+    } else if let Some(onion) = args.subcommand_matches("generate-did") {
+        let sk_path = get_sk_path(onion.value_of("sk_path"))?;
+        let sk = SecretKey::from_file(&sk_path, None)?;
+        let mut did_path = sk_path.clone();
+        did_path.pop();
+        did_path.push(SIG_DEFAULT_DID_FILE);
+        // overwrite file it it already exists
+        let did_writer = fs::File::create(did_path).unwrap();
+        generate_did_document(&did_writer, sk)?;
+        Ok(())
     } else if let Some(sign_action) = args.subcommand_matches("sign") {
         let sk_path = get_sk_path(sign_action.value_of("sk_path"))?;
         let pk = if let Some(pk_inline) = sign_action.value_of("public_key") {
