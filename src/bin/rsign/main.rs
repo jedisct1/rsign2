@@ -414,7 +414,7 @@ fn run(args: clap::ArgMatches) -> Result<()> {
             if let Some(host) = onion.value_of("tor-hostname") {
                 hname = String::from(host);
             } else if let Ok(host) = fs::read_to_string(hostname_path) {
-                hname = String::from(host);
+                hname = host;
             } else {
                 return Err(PError::new(
                     ErrorKind::Io,
@@ -428,7 +428,7 @@ fn run(args: clap::ArgMatches) -> Result<()> {
     } else if let Some(onion) = args.subcommand_matches("generate-did") {
         let sk_path = get_sk_path(onion.value_of("sk_path"))?;
         let sk = SecretKey::from_file(&sk_path, None)?;
-        let mut did_path = sk_path.clone();
+        let mut did_path = sk_path;
         did_path.pop();
         did_path.push(SIG_DEFAULT_DID_FILE);
         // overwrite file it it already exists
