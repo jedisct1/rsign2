@@ -4,7 +4,7 @@ If you get lost, try the [definitions](#Definitions) below.
 
 ### What’s the problem bc-torgap is going to solve? <img src="./Images/emoji-2744064_1280.png" alt="Smiley asking questions and being confused" border="0" width="50">
 
-It is a `DID`, a Decentralized Identifier. With an identifier you can, through a `hidden service`, say ‘make verifiable statements about things’, in particular other hidden services, for example: “Hidden service X delivered quality services”
+It is an experimental `DID`, a Decentralized Identifier. With an identifier you can, through a `hidden service`, ‘make verifiable statements about things’, in particular other hidden services, for example: “Hidden service X delivered quality services”. In addition, you can lookup those verifiable statements in a non-correlatable way.
 
 ### Wait a minute, ‘hidden service?’, what is that? <img src="./Images/emoji-2744064_1280.png" alt="Smiley asking questions and being confused" border="0" width="50">
 
@@ -22,11 +22,11 @@ But Tor is so [much more](https://www.torproject.org). You have to look into tha
 
 Sorry, it’s complicated, please hold on. What just happened is *a marvelous mix of technologies* we’ve had for some years already. We just needed time to put them together the right way. The building blocks just need to be assembled in an unprecedented way. <br/>
 Features: <br/>
-1.	Privacy.  the only way to anoymize is via a Tor connection.
+1.	Privacy.  Anonymize your statements and your lookups.
 2.	Speed.  Provide information more quickly and at a higher rate due to the use of a local database.
 3.	Reliability. Aggregrate information, making your data more trustworthy.
-4.	Self-sovereignty. The hidden service runs from your server (or that of your choice), saves to your database, and allows you to choose the details of the  services relevant to your business or private life.
-5.	Verifiable statements. You can offer statements that are shareable, and someone can confirm the statement without revealing what statement they are confirming. It's a kind of `zero knowledge proof`.
+4.	Self-sovereignty. Control your services. The hidden service runs from your server (or that of your choice), saves to your database, and allows you to choose the details of the  services relevant to your business or private life.
+5.	Verifiable statements. Offer statements that are shareable and someone can confirm the statement without revealing what statement they are confirming. It's a kind of `zero knowledge proof`.
 
 ### "Wow, impressive list, but that last feature description ruined it!" <img src="./Images/emoji-2744064_1280.png" alt="Smiley asking questions and being confused" border="0" width="50">
 #### This is total gibberish “confirm statement without revealing what statement; someone, they”, etc. *What have you been smoking?!* 
@@ -142,7 +142,7 @@ Privacy enables us to create barriers and manage boundaries to protect ourselves
 Pseudonymity is the state of being identified by a pseudonym, that is by a name, which is not somebody’s real, correct name. Furthermore, being pseudonymous in virtual communities means bearing a set of false distinctive characteristics, such as name and title that are used for identification and to some degree for interaction of the person concerned. The property that a user cannot be identified within the total user population, but her interactions nevertheless be tracked. [Source](https://www.igi-global.com/dictionary/privacy-digital-world/23971)
 
 #### SSI - Self-Sovereign Identity
-Is the concept that people and businesses can store their own identity data on their own devices, and provide it efficiently to those who need to validate it, without relying on a central repository of identity data.
+SSI is the concept that people and businesses can store their own identity data on their own devices, and provide it efficiently to those who need to validate it, without relying on a central repository of identity data.
 [Know more](https://bitsonblocks.net/2017/05/17/gentle-introduction-self-sovereign-identity/): A gentle introduction to self-sovereign identity
 
 #### URI - Uniform Resource Identifier (URI)
@@ -155,4 +155,4 @@ A hidden service is a site you visit or a service you use that uses Tor technolo
 Credentials are a part of our daily lives; driver's licenses are used to assert that we are capable of operating a motor vehicle, university degrees can be used to assert our level of education, and government-issued passports enable us to travel between countries. This specification provides a mechanism to express these sorts of credentials on the Web in a way that is cryptographically secure, privacy respecting, and machine-verifiable. [Know more](https://www.w3.org/TR/vc-data-model/)
  
  #### ZKP - Zero Knowledge Proof
-Is a method to prove the data without actually revealing the data. The person you’re proving to, doesn’t learn anything more than the bare fact that you’re proving. [Know more](https://medium.com/@pranshurastogi/zero-knowledge-proofs-a-method-to-conserve-privacy-1b072222ac1a) and analogies.
+ZKP is a method to prove the data without actually revealing the data. The person you’re proving to, doesn’t learn anything more than the bare fact that you’re proving. [Know more](https://medium.com/@pranshurastogi/zero-knowledge-proofs-a-method-to-conserve-privacy-1b072222ac1a) and analogies.
