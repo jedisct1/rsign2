@@ -1,36 +1,52 @@
 # Blockchain Commons torgap-sig-cli-rust
 
-`torgap-sig-cli-rust` is a fork of [rsign2](https://github.com/jedisct1/rsign2), a Rust implementation of [Minisign](https://jedisct1.github.io/minisign/) with support for
+`torgap-sig-cli-rust` is a fork of [rsign2](https://github.com/jedisct1/rsign2), a Rust implementation of [Minisign](https://jedisct1.github.io/minisign/), with support for
 Tor onion v3 hidden service keys.
 
-### Why is torgap-sig-cli-rust relevant?
+## Why is torgap-sig-cli-rust relevant?
 
-Torgap-sig-cli-rust facilitates the creation of decentralized identifiers (DIDs) - a type of identifier that enables verifiable, decentralized digital identity.
+Torgap-sig-cli builds on the fact that Minisig appears to be a universal donor for ed25519 signatures, usable anywhere, by a variety of different programs. This includes Tor, which uses ed25519 keys for its hidden services. Using Tor with Minisig allows for the issuance of digital signatures that enable the Tor owner to prove control, without requiring any external authorities.
 
-It does so by extending capabilities of Tor onion services with issuing digital signatures (minisign), thus enabling the controller of a DID to prove control over it without requiring permission from any other party.
+This has allowed for the experimental creation of `did:onion` DIDs, whoch can be used to enable verifiable decentralized digital identities and associated verifiable claims (VCs).
 
-#### Why Tor?
-Tor is private and decentralized by design, i.e. no centralized registries or identity providers are required to access or offer onion services.
+### Why Tor?
 
-A use case would be for microcurrency services to issue verifiable claims about their services without necessarily revealing a personal identity behind that service.
+Tor is private and decentralized by design: no centralized registries or identity providers are required to access or offer onion services.
 
-### In what is torgap-sig-cli-rust unique?
-Details are still being discussed with people in W3C DID community. We are for a lean and mean approach.
+When used with DIDs, Tor can provide two strong advantages not available in most other DID methods: censorship-resistance and non-correlation.
 
-It is unlikely we’ll support `DIDcomm` as is, more likely something closer to the protocol used by Signal. We might favor to do some fundamental things like [perfect forward secrecy](https://en.wikipedia.org/wiki/Forward_secrecy) that Signal does.
+The *censorship-resistance* means that it's difficult to block the lookup or usage of Tor-enabled DID.
 
- `torgap-sig-cli-rust` is aimed at the trustless & censorship resistant side of the digital identity spectrum. It is a `DID`, it is anti-correlation, and it works with `Lightning Network`. But it is not for personal or legal identity.
+The *non-correlation* means that: the controller of a DID can be pseudonymous; the signer of a claim can be pseudonymous; and, perhaps most importantly, an end-user investigating a claim or a DID is not correlatable. In other words, the non-correlation of Tor is bidirectional.
+
+A use case would be for a user to look up the signature of a software package without revealing to the signer that they are interested in the package.
+
+### What is Torgap?
+
+Torgap is an architectural feature created by Blockchain Commons that allows for apps and microservices to be separated by a Tor connection, creating advantages of anonymity and privacy. It can also created additional advantages of stability and availability in distributed quorum computing situations.
+
+The `did:onion` DID experiment is an example of such a Torgap, creating DID and VC microservices across the gap.
+
+See the [torgap repo](https://github.com/BlockchainCommons/torgap) for more info.
 
 ## Additional Information
 
-* Still puzzled? Have a look at our [plain people's language](Torgap-made-easy.md) interview-like explanation of why our work is super relevant, with lots of analogies.
+* Still puzzled? Have a look at our [plain people's language](Torgap-made-easy.md) interview-like explanation of why our work is relevant, with lots of analogies.
 * [Manual](docs/MANUAL.md) on how to use `torgap-sig-cli-rust`. This is an operational guide with example instructions.
 * [Signal protocol](https://en.wikipedia.org/wiki/Signal_Protocol#Properties) properties explained.
-* [Opentimestamps](opentimestamps.org) aims to be a standard format for blockchain timestamping, most and for all bitcoin. 
+* [Opentimestamps](opentimestamps.org) aims to be a standard format for blockchain timestamping, includingbitcoin. 
 
 ## Status - Late Alpha
 
 `torgap-sig-cli-rust` is currently under active development and in the late alpha testing phase. It should not be used for production tasks until it has had further testing and auditing.
+
+### Ongoing Progress
+
+Details of this experiment are still being discussed with people in the W3C DID community. We are for a lean and mean approach.
+
+It is unlikely we’ll support `DIDcomm` as is, more likely choosing something closer to the protocol used by Signal. We might favor the inclusion of some fundamental elements like the [perfect forward secrecy](https://en.wikipedia.org/wiki/Forward_secrecy) that Signal does.
+
+ The torgap-sig-cli-rust experiment is aimed at the trustless & censorship resistant side of the digital identity spectrum. It is envisioned as a DID that is anti-correlation and  works with `Lightning Network`. It is not intended for personal or legal identity.
 
 ## Installation Instructions
 
