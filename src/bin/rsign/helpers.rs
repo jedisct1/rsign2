@@ -6,7 +6,7 @@ use std::os::unix::fs::OpenOptionsExt;
 use std::path::Path;
 use std::time::{SystemTime, UNIX_EPOCH};
 
-pub fn open_data_file<P>(data_path: P) -> Result<(BufReader<File>, bool)>
+pub fn open_data_file<P>(data_path: P) -> Result<BufReader<File>>
 where
     P: AsRef<Path>,
 {
@@ -15,11 +15,8 @@ where
         .read(true)
         .open(data_path)
         .map_err(|e| PError::new(ErrorKind::Io, e))?;
-    let should_be_hashed = match file.metadata() {
-        Ok(metadata) => metadata.len() > (1u64 << 30),
-        Err(_) => true,
-    };
-    Ok((BufReader::new(file), should_be_hashed))
+
+    Ok(BufReader::new(file))
 }
 
 pub fn create_dir<P>(path: P) -> Result<()>

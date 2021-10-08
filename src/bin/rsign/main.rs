@@ -66,7 +66,6 @@ pub fn cmd_sign<P, Q, R>(
     sk_path: P,
     signature_path: Q,
     data_path: R,
-    prehashed: bool,
     trusted_comment: Option<&str>,
     untrusted_comment: Option<&str>,
 ) -> Result<()>
@@ -90,17 +89,16 @@ where
         trusted_comment.to_string()
     } else {
         format!(
-            "timestamp:{}\tfile:{}",
+            "timestamp:{}\tfile:{}\tprehashed",
             unix_timestamp(),
             data_path.as_ref().display()
         )
     };
-    let (data_reader, should_be_prehashed) = open_data_file(data_path)?;
+    let data_reader = open_data_file(data_path)?;
     let signature_box = sign(
         pk.as_ref(),
         &sk,
         data_reader,
-        prehashed | should_be_prehashed,
         Some(trusted_comment.as_str()),
         untrusted_comment,
     )?;
@@ -115,6 +113,7 @@ pub fn cmd_verify<P, Q>(
     signature_path: Q,
     quiet: bool,
     output: bool,
+    allow_legacy: bool,
 ) -> Result<()>
 where
     P: AsRef<Path>,
@@ -130,7 +129,7 @@ where
             ),
         )
     })?;
-    let (data_reader, _should_be_prehashed) = open_data_file(&data_path).map_err(|err| {
+    let data_reader = open_data_file(&data_path).map_err(|err| {
         PError::new(
             ErrorKind::Io,
             format!(
@@ -140,7 +139,14 @@ where
             ),
         )
     })?;
-    verify(&pk, &signature_box, data_reader, quiet, output)
+    verify(
+        &pk,
+        &signature_box,
+        data_reader,
+        quiet,
+        output,
+        allow_legacy,
+    )
 }
 
 fn create_sk_path_or_default(sk_path_str: Option<&str>, force: bool) -> Result<PathBuf> {
@@ -254,7 +260,6 @@ fn run(args: clap::ArgMatches) -> Result<()> {
         } else {
             None
         };
-        let prehashed = sign_action.is_present("hash");
         let data_path = PathBuf::from(sign_action.value_of("data").unwrap()); // safe to unwrap
         let signature_path = if let Some(file) = sign_action.value_of("sig_file") {
             PathBuf::from(file)
@@ -268,7 +273,6 @@ fn run(args: clap::ArgMatches) -> Result<()> {
             &sk_path,
             &signature_path,
             &data_path,
-            prehashed,
             trusted_comment,
             untrusted_comment,
         )
@@ -286,7 +290,8 @@ fn run(args: clap::ArgMatches) -> Result<()> {
         };
         let quiet = verify_action.is_present("quiet");
         let output = verify_action.is_present("output");
-        cmd_verify(pk, &data_path, &signature_path, quiet, output)
+        let allow_legacy = verify_action.is_present("allow-legacy");
+        cmd_verify(pk, &data_path, &signature_path, quiet, output, allow_legacy)
     } else {
         println!("{}\n", args.usage());
         std::process::exit(1);

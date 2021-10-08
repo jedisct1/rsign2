@@ -76,6 +76,12 @@ pub fn parse_args<'a>() -> clap::ArgMatches<'a> {
                         .long("quiet"),
                 )
                 .arg(
+                    Arg::with_name("allow-legacy")
+                        .short("l")
+                        .long("allow-legacy")
+                        .help("accept legacy signatures"),
+                )
+                .arg(
                     Arg::with_name("output")
                         .help("output the file content after verification")
                         .takes_value(false)
@@ -158,7 +164,7 @@ pub fn parse_args<'a>() -> clap::ArgMatches<'a> {
                         .required(false)
                         .short("H")
                         .long("hash")
-                        .help("pre-hash in order to sign large files (>1G)"),
+                        .help("ignored (for backwards compatibility only"),
                 ),
         )
         .get_matches()
