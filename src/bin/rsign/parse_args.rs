@@ -1,47 +1,47 @@
-use clap::{Arg, SubCommand};
+use clap::{App, Arg};
 
-pub fn parse_args<'a>() -> clap::ArgMatches<'a> {
-    app_from_crate!()
+pub fn parse_args<'a>() -> (clap::ArgMatches, String) {
+    let mut app = app_from_crate!()
         .subcommand(
-            SubCommand::with_name("generate")
+            App::new("generate")
                 .about("Generate public and private keys")
                 .arg(
-                    Arg::with_name("pk_path")
-                        .short("p")
+                    Arg::new("pk_path")
+                        .short('p')
                         .long("public-key-path")
                         .takes_value(true)
                         .value_name("PUBLIC_KEY_PATH")
                         .help("path to the new public key"),
                 )
                 .arg(
-                    Arg::with_name("sk_path")
-                        .short("s")
+                    Arg::new("sk_path")
+                        .short('s')
                         .long("secret-key-path")
                         .takes_value(true)
                         .value_name("SECRET_KEY_PATH")
                         .help("path to the new secret key"),
                 )
                 .arg(
-                    Arg::with_name("force")
-                        .short("f")
+                    Arg::new("force")
+                        .short('f')
                         .long("force")
                         .help("force generate a new keypair"),
                 )
                 .arg(
-                    Arg::with_name("comment")
+                    Arg::new("comment")
                         .takes_value(true)
                         .help("add a one-line untrusted comment")
                         .value_name("COMMENT")
-                        .short("c")
+                        .short('c')
                         .long("comment"),
                 ),
         )
         .subcommand(
-            SubCommand::with_name("verify")
+            App::new("verify")
                 .about("Verify a signed file with a given public key")
                 .arg(
-                    Arg::with_name("public_key")
-                        .short("P")
+                    Arg::new("public_key")
+                        .short('P')
                         .long("public-key-string")
                         .takes_value(true)
                         .conflicts_with("pk_path")
@@ -49,58 +49,58 @@ pub fn parse_args<'a>() -> clap::ArgMatches<'a> {
                         .value_name("PUBLIC_KEY_STRING"),
                 )
                 .arg(
-                    Arg::with_name("pk_path")
-                        .short("p")
+                    Arg::new("pk_path")
+                        .short('p')
                         .long("public-key-path")
                         .takes_value(true)
                         .value_name("PUBLIC_KEY_PATH")
                         .help("path to public key file"),
                 )
                 .arg(
-                    Arg::with_name("sig_file")
+                    Arg::new("sig_file")
                         .takes_value(true)
                         .help("signature file to be verified")
                         .value_name("SIG_FILE")
-                        .short("x")
+                        .short('x')
                         .long("sig-file"),
                 )
                 .arg(
-                    Arg::with_name("quiet")
+                    Arg::new("quiet")
                         .help("quiet mode, supress output")
                         .takes_value(false)
-                        .short("q")
+                        .short('q')
                         .long("quiet"),
                 )
                 .arg(
-                    Arg::with_name("allow-legacy")
-                        .short("l")
+                    Arg::new("allow-legacy")
+                        .short('l')
                         .long("allow-legacy")
                         .help("accept legacy signatures"),
                 )
                 .arg(
-                    Arg::with_name("output")
+                    Arg::new("output")
                         .help("output the file content after verification")
                         .takes_value(false)
-                        .short("o")
+                        .short('o')
                         .long("output"),
                 )
                 .arg(
-                    Arg::with_name("file")
+                    Arg::new("file")
                         .index(1)
                         .takes_value(true)
                         .required(true)
                         .help("file to be verified")
                         .value_name("FILE")
-                        .short("m")
+                        .short('m')
                         .long("file-name"),
                 ),
         )
         .subcommand(
-            SubCommand::with_name("sign")
+            App::new("sign")
                 .about("Sign a file with a given private key")
                 .arg(
-                    Arg::with_name("public_key")
-                        .short("P")
+                    Arg::new("public_key")
+                        .short('P')
                         .long("public-key-string")
                         .takes_value(true)
                         .conflicts_with("pk_path")
@@ -108,60 +108,62 @@ pub fn parse_args<'a>() -> clap::ArgMatches<'a> {
                         .value_name("PUBLIC_KEY_STRING"),
                 )
                 .arg(
-                    Arg::with_name("pk_path")
-                        .short("p")
+                    Arg::new("pk_path")
+                        .short('p')
                         .long("public-key-file")
                         .takes_value(true)
                         .value_name("PUBLIC_KEY_FILE")
                         .help("path to public key file"),
                 )
                 .arg(
-                    Arg::with_name("sk_path")
-                        .short("s")
+                    Arg::new("sk_path")
+                        .short('s')
                         .long("secret-key-file")
                         .takes_value(true)
                         .value_name("SECRET_KEY_FILE")
                         .help("secret key to be used to sign"),
                 )
                 .arg(
-                    Arg::with_name("sig_file")
+                    Arg::new("sig_file")
                         .takes_value(true)
                         .help("signature file")
                         .value_name("SIG_FILE")
-                        .short("x")
+                        .short('x')
                         .long("sig-file"),
                 )
                 .arg(
-                    Arg::with_name("data")
+                    Arg::new("data")
                         .index(1)
                         .takes_value(true)
                         .required(true)
                         .help("file to sign")
                         .value_name("FILE")
-                        .short("m")
+                        .short('m')
                         .long("message-file"),
                 )
                 .arg(
-                    Arg::with_name("trusted-comment")
+                    Arg::new("trusted-comment")
                         .help("add a one-line trusted comment")
                         .value_name("TRUSTED_COMMENT")
-                        .short("t")
+                        .short('t')
                         .long("trusted-comment"),
                 )
                 .arg(
-                    Arg::with_name("untrusted-comment")
+                    Arg::new("untrusted-comment")
                         .help("add a one-line untrusted comment")
                         .value_name("UNTRUSTED_COMMENT")
-                        .short("c")
+                        .short('c')
                         .long("untrusted-comment"),
                 )
                 .arg(
-                    Arg::with_name("hash")
+                    Arg::new("hash")
                         .required(false)
-                        .short("H")
+                        .short('H')
                         .long("hash")
                         .help("ignored (for backwards compatibility only"),
                 ),
-        )
-        .get_matches()
+        );
+    let help_usage = app.render_usage();
+    let matches = app.get_matches();
+    (matches, help_usage)
 }

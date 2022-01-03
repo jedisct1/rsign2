@@ -233,7 +233,7 @@ fn get_sk_path(explicit_path: Option<&str>) -> Result<PathBuf> {
     }
 }
 
-fn run(args: clap::ArgMatches) -> Result<()> {
+fn run(args: clap::ArgMatches, help_usage: &str) -> Result<()> {
     if let Some(generate_action) = args.subcommand_matches("generate") {
         let force = generate_action.is_present("force");
         let pk_path = get_pk_path(generate_action.value_of("pk_path"))?;
@@ -294,13 +294,13 @@ fn run(args: clap::ArgMatches) -> Result<()> {
         let allow_legacy = verify_action.is_present("allow-legacy");
         cmd_verify(pk, &data_path, &signature_path, quiet, output, allow_legacy)
     } else {
-        println!("{}\n", args.usage());
+        println!("{}\n", help_usage);
         std::process::exit(1);
     }
 }
 
 fn main() {
-    let args = parse_args();
-    run(args).map_err(|e| e.exit()).unwrap();
+    let (args, help_usage) = parse_args();
+    run(args, &help_usage).map_err(|e| e.exit()).unwrap();
     std::process::exit(0);
 }
