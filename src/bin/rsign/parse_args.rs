@@ -1,6 +1,6 @@
 use clap::{App, Arg};
 
-pub fn parse_args<'a>() -> (clap::ArgMatches, String) {
+pub fn parse_args() -> (clap::ArgMatches, String) {
     let mut app = app_from_crate!()
         .subcommand(
             App::new("generate")
