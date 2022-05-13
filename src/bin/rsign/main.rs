@@ -7,14 +7,15 @@ extern crate minisign;
 mod helpers;
 mod parse_args;
 
-use crate::helpers::*;
-use crate::parse_args::*;
-use minisign::*;
 use std::io::Write;
 use std::path::{Path, PathBuf};
 
 #[cfg(any(windows, unix))]
 use dirs::home_dir;
+use minisign::*;
+
+use crate::helpers::*;
+use crate::parse_args::*;
 
 #[cfg(not(any(windows, unix)))]
 fn home_dir() -> Option<PathBuf> {
@@ -164,12 +165,14 @@ fn create_sk_path_or_default(sk_path_str: Option<&str>, force: bool) -> Result<P
                 let mut complete_path = PathBuf::from(env_path);
                 if !complete_path.exists() {
                     return Err(PError::new(
-                            ErrorKind::Io,
-                            format!(
-                                "folder {} referenced by {} doesn't exists, you'll have to create yourself",
-                                complete_path.display(), SIG_DEFAULT_CONFIG_DIR_ENV_VAR
-                            ),
-                        ));
+                        ErrorKind::Io,
+                        format!(
+                            "folder {} referenced by {} doesn't exists, you'll have to create \
+                             yourself",
+                            complete_path.display(),
+                            SIG_DEFAULT_CONFIG_DIR_ENV_VAR
+                        ),
+                    ));
                 }
                 complete_path.push(SIG_DEFAULT_SKFILE);
                 complete_path

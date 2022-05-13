@@ -1,10 +1,11 @@
-use minisign::*;
 use std::fs::{DirBuilder, File, OpenOptions};
 use std::io::{BufReader, BufWriter};
 #[cfg(unix)]
 use std::os::unix::fs::OpenOptionsExt;
 use std::path::Path;
 use std::time::{SystemTime, UNIX_EPOCH};
+
+use minisign::*;
 
 pub fn open_data_file<P>(data_path: P) -> Result<BufReader<File>>
 where
