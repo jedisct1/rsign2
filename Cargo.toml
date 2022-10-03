@@ -14,7 +14,7 @@ repository = "https://github.com/jedisct1/rsign2"
 
 [dependencies]
 base64 = "0.13"
-clap = { version = "3.0.0", features = ["std", "cargo", "wrap_help"] }
+clap = { version = "4.0.8", features = ["std", "cargo", "wrap_help"] }
 minisign = "0.7"
 
 [target.'cfg(any(windows, unix))'.dependencies]
