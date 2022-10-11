@@ -47,11 +47,11 @@ force this operation.",
                 ),
             ));
         } else {
-            std::fs::remove_file(&pk_path)?;
+            std::fs::remove_file(pk_path)?;
         }
     }
-    let mut pk_writer = create_file(&pk_path, 0o644)?;
-    let mut sk_writer = create_file(&sk_path, 0o600)?;
+    let mut pk_writer = create_file(pk_path, 0o644)?;
+    let mut sk_writer = create_file(sk_path, 0o600)?;
     let kp = KeyPair::generate_and_write_encrypted_keypair(
         &mut pk_writer,
         &mut sk_writer,
@@ -295,7 +295,7 @@ fn run(args: clap::ArgMatches, help_usage: &str) -> Result<()> {
         let quiet = verify_action.is_present("quiet");
         let output = verify_action.is_present("output");
         let allow_legacy = verify_action.is_present("allow-legacy");
-        cmd_verify(pk, &data_path, &signature_path, quiet, output, allow_legacy)
+        cmd_verify(pk, data_path, &signature_path, quiet, output, allow_legacy)
     } else {
         println!("{}\n", help_usage);
         std::process::exit(1);
