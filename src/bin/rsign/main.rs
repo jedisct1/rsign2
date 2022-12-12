@@ -274,8 +274,8 @@ fn run(args: clap::ArgMatches, help_usage: &str) -> Result<()> {
         let untrusted_comment = sign_action.value_of("untrusted-comment");
         cmd_sign(
             pk,
-            &sk_path,
-            &signature_path,
+            sk_path,
+            signature_path,
             &data_path,
             trusted_comment,
             untrusted_comment,
@@ -290,14 +290,14 @@ fn run(args: clap::ArgMatches, help_usage: &str) -> Result<()> {
         let signature_path = if let Some(path) = verify_action.value_of("sig_file") {
             PathBuf::from(path)
         } else {
-            PathBuf::from(format!("{}{}", data_path, SIG_SUFFIX))
+            PathBuf::from(format!("{data_path}{SIG_SUFFIX}"))
         };
         let quiet = verify_action.is_present("quiet");
         let output = verify_action.is_present("output");
         let allow_legacy = verify_action.is_present("allow-legacy");
-        cmd_verify(pk, data_path, &signature_path, quiet, output, allow_legacy)
+        cmd_verify(pk, data_path, signature_path, quiet, output, allow_legacy)
     } else {
-        println!("{}\n", help_usage);
+        println!("{help_usage}\n");
         std::process::exit(1);
     }
 }
