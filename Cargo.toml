@@ -13,7 +13,7 @@ keywords = ["command-line", "sign", "publickey", "cryptography", "minisign"]
 repository = "https://github.com/jedisct1/rsign2"
 
 [dependencies]
-base64 = "0.13"
+base64 = "0.20"
 clap = { version = "3", features = ["std", "cargo", "wrap_help"] }
 minisign = "0.7"
 
