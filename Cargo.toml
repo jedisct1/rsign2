@@ -13,7 +13,7 @@ keywords = ["command-line", "sign", "publickey", "cryptography", "minisign"]
 repository = "https://github.com/jedisct1/rsign2"
 
 [dependencies]
-clap = { version = "3", features = ["std", "cargo", "wrap_help"] }
+clap = { version = "4", features = ["std", "cargo", "wrap_help", "string"] }
 minisign = "0.7"
 
 [target.'cfg(any(windows, unix))'.dependencies]

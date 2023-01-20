@@ -238,12 +238,17 @@ fn get_sk_path(explicit_path: Option<&str>) -> Result<PathBuf> {
 
 fn run(args: clap::ArgMatches, help_usage: &str) -> Result<()> {
     if let Some(generate_action) = args.subcommand_matches("generate") {
-        let force = generate_action.is_present("force");
-        let pk_path = get_pk_path(generate_action.value_of("pk_path"))?;
-        let sk_path_str = generate_action.value_of("sk_path");
-        let sk_path = create_sk_path_or_default(sk_path_str, force)?;
-        let comment = generate_action.value_of("comment");
-        let KeyPair { pk, .. } = cmd_generate(force, &pk_path, &sk_path, comment)?;
+        let force = generate_action.get_flag("force");
+        let pk_path = get_pk_path(
+            generate_action
+                .get_one::<String>("pk_path")
+                .map(|s| s.as_str()),
+        )?;
+        let sk_path_str = generate_action.get_one::<String>("sk_path");
+        let sk_path = create_sk_path_or_default(sk_path_str.map(|s| s.as_str()), force)?;
+        let comment = generate_action.get_one::<String>("comment");
+        let KeyPair { pk, .. } =
+            cmd_generate(force, &pk_path, &sk_path, comment.map(|s| s.as_str()))?;
         println!(
             "\nThe secret key was saved as {} - Keep it secret!",
             sk_path.display()
@@ -256,22 +261,24 @@ fn run(args: clap::ArgMatches, help_usage: &str) -> Result<()> {
         println!("rsign verify <file> -P {}", pk.to_base64());
         Ok(())
     } else if let Some(sign_action) = args.subcommand_matches("sign") {
-        let sk_path = get_sk_path(sign_action.value_of("sk_path"))?;
-        let pk = if let Some(pk_inline) = sign_action.value_of("public_key") {
+        let sk_path = get_sk_path(sign_action.get_one::<String>("sk_path").map(|s| s.as_str()))?;
+        let pk = if let Some(pk_inline) = sign_action.get_one::<String>("public_key") {
             Some(PublicKey::from_base64(pk_inline)?)
-        } else if let Some(pk_path) = sign_action.value_of("pk_path") {
+        } else if let Some(pk_path) = sign_action.get_one::<String>("pk_path") {
             Some(PublicKey::from_file(get_pk_path(Some(pk_path))?)?)
         } else {
             None
         };
-        let data_path = PathBuf::from(sign_action.value_of("data").unwrap()); // safe to unwrap
-        let signature_path = if let Some(file) = sign_action.value_of("sig_file") {
+        let data_path = PathBuf::from(sign_action.get_one::<String>("data").unwrap()); // safe to unwrap
+        let signature_path = if let Some(file) = sign_action.get_one::<String>("sig_file") {
             PathBuf::from(file)
         } else {
             PathBuf::from(format!("{}{}", data_path.display(), SIG_SUFFIX))
         };
-        let trusted_comment = sign_action.value_of("trusted-comment");
-        let untrusted_comment = sign_action.value_of("untrusted-comment");
+        let trusted_comment = sign_action.get_one::<String>("trusted-comment");
+        let trusted_comment = trusted_comment.map(|s| s.as_str());
+        let untrusted_comment = sign_action.get_one::<String>("untrusted-comment");
+        let untrusted_comment = untrusted_comment.map(|s| s.as_str());
         cmd_sign(
             pk,
             sk_path,
@@ -281,20 +288,24 @@ fn run(args: clap::ArgMatches, help_usage: &str) -> Result<()> {
             untrusted_comment,
         )
     } else if let Some(verify_action) = args.subcommand_matches("verify") {
-        let pk = if let Some(pk_inline) = verify_action.value_of("public_key") {
+        let pk = if let Some(pk_inline) = verify_action.get_one::<String>("public_key") {
             PublicKey::from_base64(pk_inline)?
         } else {
-            PublicKey::from_file(get_pk_path(verify_action.value_of("pk_path"))?)?
+            PublicKey::from_file(get_pk_path(
+                verify_action
+                    .get_one::<String>("pk_path")
+                    .map(|s| s.as_str()),
+            )?)?
         };
-        let data_path = verify_action.value_of("file").unwrap();
-        let signature_path = if let Some(path) = verify_action.value_of("sig_file") {
+        let data_path = verify_action.get_one::<String>("file").unwrap();
+        let signature_path = if let Some(path) = verify_action.get_one::<String>("sig_file") {
             PathBuf::from(path)
         } else {
             PathBuf::from(format!("{data_path}{SIG_SUFFIX}"))
         };
-        let quiet = verify_action.is_present("quiet");
-        let output = verify_action.is_present("output");
-        let allow_legacy = verify_action.is_present("allow-legacy");
+        let quiet = verify_action.get_flag("quiet");
+        let output = verify_action.get_flag("output");
+        let allow_legacy = verify_action.get_flag("allow-legacy");
         cmd_verify(pk, data_path, signature_path, quiet, output, allow_legacy)
     } else {
         println!("{help_usage}\n");

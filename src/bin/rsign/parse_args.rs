@@ -1,15 +1,15 @@
-use clap::{App, Arg};
+use clap::{Arg, ArgAction::SetTrue, Command};
 
 pub fn parse_args() -> (clap::ArgMatches, String) {
-    let mut app = app_from_crate!()
+    let mut app = command!()
         .subcommand(
-            App::new("generate")
+            Command::new("generate")
                 .about("Generate public and private keys")
                 .arg(
                     Arg::new("pk_path")
                         .short('p')
                         .long("public-key-path")
-                        .takes_value(true)
+                        .num_args(1)
                         .value_name("PUBLIC_KEY_PATH")
                         .help("path to the new public key"),
                 )
@@ -17,7 +17,7 @@ pub fn parse_args() -> (clap::ArgMatches, String) {
                     Arg::new("sk_path")
                         .short('s')
                         .long("secret-key-path")
-                        .takes_value(true)
+                        .num_args(1)
                         .value_name("SECRET_KEY_PATH")
                         .help("path to the new secret key"),
                 )
@@ -25,11 +25,12 @@ pub fn parse_args() -> (clap::ArgMatches, String) {
                     Arg::new("force")
                         .short('f')
                         .long("force")
+                        .action(SetTrue)
                         .help("force generate a new keypair"),
                 )
                 .arg(
                     Arg::new("comment")
-                        .takes_value(true)
+                        .num_args(1)
                         .help("add a one-line untrusted comment")
                         .value_name("COMMENT")
                         .short('c')
@@ -37,13 +38,13 @@ pub fn parse_args() -> (clap::ArgMatches, String) {
                 ),
         )
         .subcommand(
-            App::new("verify")
+            Command::new("verify")
                 .about("Verify a signed file with a given public key")
                 .arg(
                     Arg::new("public_key")
                         .short('P')
                         .long("public-key-string")
-                        .takes_value(true)
+                        .num_args(1)
                         .conflicts_with("pk_path")
                         .help("public key string")
                         .value_name("PUBLIC_KEY_STRING"),
@@ -52,13 +53,13 @@ pub fn parse_args() -> (clap::ArgMatches, String) {
                     Arg::new("pk_path")
                         .short('p')
                         .long("public-key-path")
-                        .takes_value(true)
+                        .num_args(1)
                         .value_name("PUBLIC_KEY_PATH")
                         .help("path to public key file"),
                 )
                 .arg(
                     Arg::new("sig_file")
-                        .takes_value(true)
+                        .num_args(1)
                         .help("signature file to be verified")
                         .value_name("SIG_FILE")
                         .short('x')
@@ -67,7 +68,7 @@ pub fn parse_args() -> (clap::ArgMatches, String) {
                 .arg(
                     Arg::new("quiet")
                         .help("quiet mode, supress output")
-                        .takes_value(false)
+                        .action(SetTrue)
                         .short('q')
                         .long("quiet"),
                 )
@@ -75,34 +76,33 @@ pub fn parse_args() -> (clap::ArgMatches, String) {
                     Arg::new("allow-legacy")
                         .short('l')
                         .long("allow-legacy")
+                        .action(SetTrue)
                         .help("accept legacy signatures"),
                 )
                 .arg(
                     Arg::new("output")
                         .help("output the file content after verification")
-                        .takes_value(false)
                         .short('o')
-                        .long("output"),
+                        .long("output")
+                        .action(SetTrue),
                 )
                 .arg(
                     Arg::new("file")
                         .index(1)
-                        .takes_value(true)
+                        .num_args(1)
                         .required(true)
                         .help("file to be verified")
-                        .value_name("FILE")
-                        .short('m')
-                        .long("file-name"),
+                        .value_name("FILE"),
                 ),
         )
         .subcommand(
-            App::new("sign")
+            Command::new("sign")
                 .about("Sign a file with a given private key")
                 .arg(
                     Arg::new("public_key")
                         .short('P')
                         .long("public-key-string")
-                        .takes_value(true)
+                        .num_args(1)
                         .conflicts_with("pk_path")
                         .help("public key string")
                         .value_name("PUBLIC_KEY_STRING"),
@@ -111,7 +111,7 @@ pub fn parse_args() -> (clap::ArgMatches, String) {
                     Arg::new("pk_path")
                         .short('p')
                         .long("public-key-file")
-                        .takes_value(true)
+                        .num_args(1)
                         .value_name("PUBLIC_KEY_FILE")
                         .help("path to public key file"),
                 )
@@ -119,13 +119,13 @@ pub fn parse_args() -> (clap::ArgMatches, String) {
                     Arg::new("sk_path")
                         .short('s')
                         .long("secret-key-file")
-                        .takes_value(true)
+                        .num_args(1)
                         .value_name("SECRET_KEY_FILE")
                         .help("secret key to be used to sign"),
                 )
                 .arg(
                     Arg::new("sig_file")
-                        .takes_value(true)
+                        .num_args(1)
                         .help("signature file")
                         .value_name("SIG_FILE")
                         .short('x')
@@ -134,7 +134,7 @@ pub fn parse_args() -> (clap::ArgMatches, String) {
                 .arg(
                     Arg::new("data")
                         .index(1)
-                        .takes_value(true)
+                        .num_args(1)
                         .required(true)
                         .help("file to sign")
                         .value_name("FILE")
@@ -145,6 +145,7 @@ pub fn parse_args() -> (clap::ArgMatches, String) {
                     Arg::new("trusted-comment")
                         .help("add a one-line trusted comment")
                         .value_name("TRUSTED_COMMENT")
+                        .num_args(1)
                         .short('t')
                         .long("trusted-comment"),
                 )
@@ -152,6 +153,7 @@ pub fn parse_args() -> (clap::ArgMatches, String) {
                     Arg::new("untrusted-comment")
                         .help("add a one-line untrusted comment")
                         .value_name("UNTRUSTED_COMMENT")
+                        .num_args(1)
                         .short('c')
                         .long("untrusted-comment"),
                 )
@@ -160,10 +162,11 @@ pub fn parse_args() -> (clap::ArgMatches, String) {
                         .required(false)
                         .short('H')
                         .long("hash")
+                        .action(SetTrue)
                         .help("ignored (for backwards compatibility only"),
                 ),
         );
-    let help_usage = app.render_usage();
+    let help_usage = app.render_usage().to_string();
     let matches = app.get_matches();
     (matches, help_usage)
 }
