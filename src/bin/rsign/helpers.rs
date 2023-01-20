@@ -1,4 +1,4 @@
-use std::fs::{DirBuilder, File, OpenOptions};
+use std::fs::{File, OpenOptions};
 use std::io::{BufReader, BufWriter};
 #[cfg(unix)]
 use std::os::unix::fs::OpenOptionsExt;
@@ -20,31 +20,24 @@ where
     Ok(BufReader::new(file))
 }
 
-pub fn create_dir<P>(path: P) -> Result<()>
-where
-    P: AsRef<Path>,
-{
-    DirBuilder::new()
-        .recursive(true)
-        .create(&path)
-        .map_err(|e| {
-            PError::new(
-                ErrorKind::Io,
-                format!("while creating: {} - {}", path.as_ref().display(), e),
-            )
-        })?;
-    Ok(())
-}
-
 #[cfg(not(unix))]
-pub fn create_file<P>(path: P, _mode: u32) -> Result<BufWriter<File>>
+pub fn create_file<P>(path: P, _mode: u32, force: bool) -> Result<BufWriter<File>>
 where
     P: AsRef<Path>,
 {
     let path = path.as_ref();
+    if let Some(parent) = path.parent() {
+        std::fs::create_dir_all(parent).map_err(|e| {
+            PError::new(
+                ErrorKind::Io,
+                format!("while creating: {} - {}", path.display(), e),
+            )
+        })?;
+    }
     let file = OpenOptions::new()
         .write(true)
-        .create_new(true)
+        .create(true)
+        .create_new(!force)
         .open(path)
         .map_err(|e| {
             PError::new(
@@ -56,15 +49,24 @@ where
 }
 
 #[cfg(unix)]
-pub fn create_file<P>(path: P, mode: u32) -> Result<BufWriter<File>>
+pub fn create_file<P>(path: P, mode: u32, force: bool) -> Result<BufWriter<File>>
 where
     P: AsRef<Path>,
 {
     let path = path.as_ref();
+    if let Some(parent) = path.parent() {
+        std::fs::create_dir_all(parent).map_err(|e| {
+            PError::new(
+                ErrorKind::Io,
+                format!("while creating: {} - {}", path.display(), e),
+            )
+        })?;
+    }
     let file = OpenOptions::new()
         .mode(mode)
         .write(true)
-        .create_new(true)
+        .create(true)
+        .create_new(!force)
         .open(path)
         .map_err(|e| {
             PError::new(

@@ -1,165 +1,175 @@
-use clap::{App, Arg};
+use clap::{builder::StyledStr, command, value_parser, Arg, ArgAction, Command};
+use std::path::PathBuf;
 
-pub fn parse_args() -> (clap::ArgMatches, String) {
-    let mut app = app_from_crate!()
+pub fn parse_args() -> (clap::ArgMatches, StyledStr) {
+    let mut app = command!()
         .subcommand(
-            App::new("generate")
+            Command::new("generate")
                 .about("Generate public and private keys")
                 .arg(
                     Arg::new("pk_path")
                         .short('p')
                         .long("public-key-path")
-                        .takes_value(true)
                         .value_name("PUBLIC_KEY_PATH")
+                        .value_parser(value_parser!(PathBuf))
+                        .action(ArgAction::Set)
                         .help("path to the new public key"),
                 )
                 .arg(
                     Arg::new("sk_path")
                         .short('s')
                         .long("secret-key-path")
-                        .takes_value(true)
                         .value_name("SECRET_KEY_PATH")
+                        .value_parser(value_parser!(PathBuf))
+                        .action(ArgAction::Set)
                         .help("path to the new secret key"),
                 )
                 .arg(
                     Arg::new("force")
                         .short('f')
                         .long("force")
+                        .action(ArgAction::SetTrue)
                         .help("force generate a new keypair"),
                 )
                 .arg(
                     Arg::new("comment")
-                        .takes_value(true)
-                        .help("add a one-line untrusted comment")
-                        .value_name("COMMENT")
                         .short('c')
-                        .long("comment"),
+                        .long("comment")
+                        .value_name("COMMENT")
+                        .action(ArgAction::Set)
+                        .help("add a one-line untrusted comment"),
                 ),
         )
         .subcommand(
-            App::new("verify")
+            Command::new("verify")
                 .about("Verify a signed file with a given public key")
                 .arg(
                     Arg::new("public_key")
                         .short('P')
                         .long("public-key-string")
-                        .takes_value(true)
                         .conflicts_with("pk_path")
-                        .help("public key string")
-                        .value_name("PUBLIC_KEY_STRING"),
+                        .value_name("PUBLIC_KEY_STRING")
+                        .action(ArgAction::Set)
+                        .help("public key string"),
                 )
                 .arg(
                     Arg::new("pk_path")
                         .short('p')
                         .long("public-key-path")
-                        .takes_value(true)
                         .value_name("PUBLIC_KEY_PATH")
+                        .value_parser(value_parser!(PathBuf))
+                        .action(ArgAction::Set)
                         .help("path to public key file"),
                 )
                 .arg(
                     Arg::new("sig_file")
-                        .takes_value(true)
-                        .help("signature file to be verified")
-                        .value_name("SIG_FILE")
                         .short('x')
-                        .long("sig-file"),
+                        .long("sig-file")
+                        .value_name("SIG_FILE")
+                        .value_parser(value_parser!(PathBuf))
+                        .action(ArgAction::Set)
+                        .help("signature file to be verified"),
                 )
                 .arg(
                     Arg::new("quiet")
-                        .help("quiet mode, supress output")
-                        .takes_value(false)
                         .short('q')
-                        .long("quiet"),
+                        .long("quiet")
+                        .action(ArgAction::SetTrue)
+                        .help("quiet mode, supress output"),
                 )
                 .arg(
                     Arg::new("allow-legacy")
                         .short('l')
                         .long("allow-legacy")
+                        .action(ArgAction::SetTrue)
                         .help("accept legacy signatures"),
                 )
                 .arg(
                     Arg::new("output")
-                        .help("output the file content after verification")
-                        .takes_value(false)
                         .short('o')
-                        .long("output"),
+                        .long("output")
+                        .action(ArgAction::SetTrue)
+                        .help("output the file content after verification"),
                 )
                 .arg(
                     Arg::new("file")
                         .index(1)
-                        .takes_value(true)
                         .required(true)
-                        .help("file to be verified")
                         .value_name("FILE")
-                        .short('m')
-                        .long("file-name"),
+                        .value_parser(value_parser!(PathBuf))
+                        .action(ArgAction::Set)
+                        .help("file to be verified"),
                 ),
         )
         .subcommand(
-            App::new("sign")
+            Command::new("sign")
                 .about("Sign a file with a given private key")
                 .arg(
                     Arg::new("public_key")
                         .short('P')
                         .long("public-key-string")
-                        .takes_value(true)
                         .conflicts_with("pk_path")
-                        .help("public key string")
-                        .value_name("PUBLIC_KEY_STRING"),
+                        .value_name("PUBLIC_KEY_STRING")
+                        .action(ArgAction::Set)
+                        .help("public key string"),
                 )
                 .arg(
                     Arg::new("pk_path")
                         .short('p')
                         .long("public-key-file")
-                        .takes_value(true)
                         .value_name("PUBLIC_KEY_FILE")
+                        .value_parser(value_parser!(PathBuf))
+                        .action(ArgAction::Set)
                         .help("path to public key file"),
                 )
                 .arg(
                     Arg::new("sk_path")
                         .short('s')
                         .long("secret-key-file")
-                        .takes_value(true)
                         .value_name("SECRET_KEY_FILE")
+                        .value_parser(value_parser!(PathBuf))
+                        .action(ArgAction::Set)
                         .help("secret key to be used to sign"),
                 )
                 .arg(
                     Arg::new("sig_file")
-                        .takes_value(true)
-                        .help("signature file")
-                        .value_name("SIG_FILE")
                         .short('x')
-                        .long("sig-file"),
+                        .long("sig-file")
+                        .value_name("SIG_FILE")
+                        .value_parser(value_parser!(PathBuf))
+                        .action(ArgAction::Set)
+                        .help("signature file"),
                 )
                 .arg(
                     Arg::new("data")
                         .index(1)
-                        .takes_value(true)
                         .required(true)
-                        .help("file to sign")
                         .value_name("FILE")
-                        .short('m')
-                        .long("message-file"),
+                        .value_parser(value_parser!(PathBuf))
+                        .action(ArgAction::Set)
+                        .help("file to sign"),
                 )
                 .arg(
                     Arg::new("trusted-comment")
-                        .help("add a one-line trusted comment")
-                        .value_name("TRUSTED_COMMENT")
                         .short('t')
-                        .long("trusted-comment"),
+                        .long("trusted-comment")
+                        .value_name("TRUSTED_COMMENT")
+                        .action(ArgAction::Set)
+                        .help("add a one-line trusted comment"),
                 )
                 .arg(
                     Arg::new("untrusted-comment")
-                        .help("add a one-line untrusted comment")
-                        .value_name("UNTRUSTED_COMMENT")
                         .short('c')
-                        .long("untrusted-comment"),
+                        .long("untrusted-comment")
+                        .value_name("UNTRUSTED_COMMENT")
+                        .action(ArgAction::Set)
+                        .help("add a one-line untrusted comment"),
                 )
                 .arg(
                     Arg::new("hash")
-                        .required(false)
                         .short('H')
                         .long("hash")
+                        .action(ArgAction::SetTrue)
                         .help("ignored (for backwards compatibility only"),
                 ),
         );

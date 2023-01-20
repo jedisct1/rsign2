@@ -1,6 +1,7 @@
 [package]
 name = "rsign2"
 version = "0.6.1"
+edition = "2021"
 authors = [
     "Frank Denis <github@pureftpd.org>",
     "Daniel Rangel <daniel@rangel.in>",
@@ -13,7 +14,7 @@ keywords = ["command-line", "sign", "publickey", "cryptography", "minisign"]
 repository = "https://github.com/jedisct1/rsign2"
 
 [dependencies]
-clap = { version = "3", features = ["std", "cargo", "wrap_help"] }
+clap = { version = "4.1.1", features = ["std", "cargo", "wrap_help"] }
 minisign = "0.7"
 
 [target.'cfg(any(windows, unix))'.dependencies]
