@@ -30,11 +30,11 @@ pub fn parse_args() -> (clap::ArgMatches, String) {
                 )
                 .arg(
                     Arg::new("comment")
-                        .num_args(1)
-                        .help("add a one-line untrusted comment")
-                        .value_name("COMMENT")
                         .short('c')
-                        .long("comment"),
+                        .long("comment")
+                        .num_args(1)
+                        .value_name("COMMENT")
+                        .help("add a one-line untrusted comment"),
                 ),
         )
         .subcommand(
@@ -45,9 +45,9 @@ pub fn parse_args() -> (clap::ArgMatches, String) {
                         .short('P')
                         .long("public-key-string")
                         .num_args(1)
+                        .value_name("PUBLIC_KEY_STRING")
                         .conflicts_with("pk_path")
-                        .help("public key string")
-                        .value_name("PUBLIC_KEY_STRING"),
+                        .help("public key string"),
                 )
                 .arg(
                     Arg::new("pk_path")
@@ -59,18 +59,18 @@ pub fn parse_args() -> (clap::ArgMatches, String) {
                 )
                 .arg(
                     Arg::new("sig_file")
-                        .num_args(1)
-                        .help("signature file to be verified")
-                        .value_name("SIG_FILE")
                         .short('x')
-                        .long("sig-file"),
+                        .long("sig-file")
+                        .num_args(1)
+                        .value_name("SIG_FILE")
+                        .help("signature file to be verified"),
                 )
                 .arg(
                     Arg::new("quiet")
-                        .help("quiet mode, supress output")
-                        .action(SetTrue)
                         .short('q')
-                        .long("quiet"),
+                        .long("quiet")
+                        .action(SetTrue)
+                        .help("quiet mode, supress output"),
                 )
                 .arg(
                     Arg::new("allow-legacy")
@@ -81,18 +81,18 @@ pub fn parse_args() -> (clap::ArgMatches, String) {
                 )
                 .arg(
                     Arg::new("output")
-                        .help("output the file content after verification")
                         .short('o')
                         .long("output")
-                        .action(SetTrue),
+                        .action(SetTrue)
+                        .help("output the file content after verification"),
                 )
                 .arg(
                     Arg::new("file")
                         .index(1)
                         .num_args(1)
                         .required(true)
-                        .help("file to be verified")
-                        .value_name("FILE"),
+                        .value_name("FILE")
+                        .help("file to be verified"),
                 ),
         )
         .subcommand(
@@ -103,9 +103,9 @@ pub fn parse_args() -> (clap::ArgMatches, String) {
                         .short('P')
                         .long("public-key-string")
                         .num_args(1)
+                        .value_name("PUBLIC_KEY_STRING")
                         .conflicts_with("pk_path")
-                        .help("public key string")
-                        .value_name("PUBLIC_KEY_STRING"),
+                        .help("public key string"),
                 )
                 .arg(
                     Arg::new("pk_path")
@@ -125,43 +125,41 @@ pub fn parse_args() -> (clap::ArgMatches, String) {
                 )
                 .arg(
                     Arg::new("sig_file")
-                        .num_args(1)
-                        .help("signature file")
-                        .value_name("SIG_FILE")
                         .short('x')
-                        .long("sig-file"),
+                        .long("sig-file")
+                        .num_args(1)
+                        .value_name("SIG_FILE")
+                        .help("signature file"),
                 )
                 .arg(
                     Arg::new("data")
                         .index(1)
                         .num_args(1)
-                        .required(true)
-                        .help("file to sign")
                         .value_name("FILE")
-                        .short('m')
-                        .long("message-file"),
+                        .required(true)
+                        .help("file to sign"),
                 )
                 .arg(
                     Arg::new("trusted-comment")
-                        .help("add a one-line trusted comment")
-                        .value_name("TRUSTED_COMMENT")
-                        .num_args(1)
                         .short('t')
-                        .long("trusted-comment"),
+                        .long("trusted-comment")
+                        .num_args(1)
+                        .value_name("TRUSTED_COMMENT")
+                        .help("add a one-line trusted comment"),
                 )
                 .arg(
                     Arg::new("untrusted-comment")
-                        .help("add a one-line untrusted comment")
-                        .value_name("UNTRUSTED_COMMENT")
-                        .num_args(1)
                         .short('c')
-                        .long("untrusted-comment"),
+                        .long("untrusted-comment")
+                        .num_args(1)
+                        .value_name("UNTRUSTED_COMMENT")
+                        .help("add a one-line untrusted comment"),
                 )
                 .arg(
                     Arg::new("hash")
-                        .required(false)
                         .short('H')
                         .long("hash")
+                        .required(false)
                         .action(SetTrue)
                         .help("ignored (for backwards compatibility only"),
                 ),
