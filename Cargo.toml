@@ -17,7 +17,7 @@ clap = { version = "4", features = ["std", "cargo", "wrap_help", "string"] }
 minisign = "0.7"
 
 [target.'cfg(any(windows, unix))'.dependencies]
-dirs = "4.0.0"
+dirs = "5.0.1"
 
 [profile.release]
 lto = true
