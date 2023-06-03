@@ -35,6 +35,13 @@ pub fn parse_args() -> (clap::ArgMatches, String) {
                         .num_args(1)
                         .value_name("COMMENT")
                         .help("add a one-line untrusted comment"),
+                )
+                .arg(
+                    Arg::new("passwordless")
+                        .short('W')
+                        .long("passwordless")
+                        .action(SetTrue)
+                        .help("don't use a password for the secret key"),
                 ),
         )
         .subcommand(
@@ -162,6 +169,13 @@ pub fn parse_args() -> (clap::ArgMatches, String) {
                         .required(false)
                         .action(SetTrue)
                         .help("ignored (for backwards compatibility only"),
+                )
+                .arg(
+                    Arg::new("passwordless")
+                        .short('W')
+                        .long("passwordless")
+                        .action(SetTrue)
+                        .help("don't use a password for the secret key"),
                 ),
         );
     let help_usage = app.render_usage().to_string();

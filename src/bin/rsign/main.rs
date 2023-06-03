@@ -27,6 +27,7 @@ pub fn cmd_generate<P, Q>(
     pk_path: P,
     sk_path: Q,
     comment: Option<&str>,
+    passwordless: bool,
 ) -> Result<KeyPair>
 where
     P: AsRef<Path>,
@@ -56,7 +57,11 @@ force this operation.",
         &mut pk_writer,
         &mut sk_writer,
         comment,
-        None,
+        if passwordless {
+            Some(Default::default())
+        } else {
+            None
+        },
     )?;
     pk_writer.flush()?;
     sk_writer.flush()?;
@@ -70,6 +75,7 @@ pub fn cmd_sign<P, Q, R>(
     data_path: R,
     trusted_comment: Option<&str>,
     untrusted_comment: Option<&str>,
+    passwordless: bool,
 ) -> Result<()>
 where
     P: AsRef<Path>,
@@ -86,7 +92,14 @@ where
         ));
     }
     let mut signature_box_writer = create_sig_file(&signature_path)?;
-    let sk = SecretKey::from_file(sk_path, None)?;
+    let sk = SecretKey::from_file(
+        sk_path,
+        if passwordless {
+            Some(Default::default())
+        } else {
+            None
+        },
+    )?;
     let trusted_comment = if let Some(trusted_comment) = trusted_comment {
         trusted_comment.to_string()
     } else {
@@ -247,8 +260,14 @@ fn run(args: clap::ArgMatches, help_usage: &str) -> Result<()> {
         let sk_path_str = generate_action.get_one::<String>("sk_path");
         let sk_path = create_sk_path_or_default(sk_path_str.map(|s| s.as_str()), force)?;
         let comment = generate_action.get_one::<String>("comment");
-        let KeyPair { pk, .. } =
-            cmd_generate(force, &pk_path, &sk_path, comment.map(|s| s.as_str()))?;
+        let passwordless = generate_action.get_flag("passwordless");
+        let KeyPair { pk, .. } = cmd_generate(
+            force,
+            &pk_path,
+            &sk_path,
+            comment.map(|s| s.as_str()),
+            passwordless,
+        )?;
         println!(
             "\nThe secret key was saved as {} - Keep it secret!",
             sk_path.display()
@@ -279,6 +298,7 @@ fn run(args: clap::ArgMatches, help_usage: &str) -> Result<()> {
         let trusted_comment = trusted_comment.map(|s| s.as_str());
         let untrusted_comment = sign_action.get_one::<String>("untrusted-comment");
         let untrusted_comment = untrusted_comment.map(|s| s.as_str());
+        let passwordless = sign_action.get_flag("passwordless");
         cmd_sign(
             pk,
             sk_path,
@@ -286,6 +306,7 @@ fn run(args: clap::ArgMatches, help_usage: &str) -> Result<()> {
             &data_path,
             trusted_comment,
             untrusted_comment,
+            passwordless,
         )
     } else if let Some(verify_action) = args.subcommand_matches("verify") {
         let pk = if let Some(pk_inline) = verify_action.get_one::<String>("public_key") {
