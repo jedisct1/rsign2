@@ -1,8 +1,5 @@
 #[macro_use]
 extern crate clap;
-#[cfg(any(windows, unix))]
-extern crate dirs;
-extern crate minisign;
 
 mod helpers;
 mod parse_args;
