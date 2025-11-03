@@ -77,7 +77,7 @@ pub fn parse_args() -> (clap::ArgMatches, String) {
                         .short('q')
                         .long("quiet")
                         .action(SetTrue)
-                        .help("quiet mode, supress output"),
+                        .help("quiet mode, suppress output"),
                 )
                 .arg(
                     Arg::new("allow-legacy")
@@ -168,7 +168,7 @@ pub fn parse_args() -> (clap::ArgMatches, String) {
                         .long("hash")
                         .required(false)
                         .action(SetTrue)
-                        .help("ignored (for backwards compatibility only"),
+                        .help("ignored (for backwards compatibility only)"),
                 )
                 .arg(
                     Arg::new("passwordless")

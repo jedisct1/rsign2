@@ -177,8 +177,8 @@ fn create_sk_path_or_default(sk_path_str: Option<&str>, force: bool) -> Result<P
                     return Err(PError::new(
                         ErrorKind::Io,
                         format!(
-                            "folder {} referenced by {} doesn't exists, you'll have to create \
-                             yourself",
+                            "folder {} referenced by {} doesn't exist, you'll have to create \
+                             it yourself",
                             complete_path.display(),
                             SIG_DEFAULT_CONFIG_DIR_ENV_VAR
                         ),
