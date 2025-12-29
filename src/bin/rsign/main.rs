@@ -11,7 +11,9 @@ use std::path::{Path, PathBuf};
 use dirs::home_dir;
 use minisign::*;
 
-use crate::helpers::*;
+use crate::helpers::{
+    create_dir, create_file, create_sig_file, is_printable, open_data_file, unix_timestamp,
+};
 use crate::parse_args::*;
 
 #[cfg(not(any(windows, unix)))]
@@ -151,14 +153,21 @@ where
             ),
         )
     })?;
-    verify(
-        &pk,
-        &signature_box,
-        data_reader,
-        quiet,
-        output,
-        allow_legacy,
-    )
+    let trusted_comment = signature_box.trusted_comment()?;
+    if !is_printable(&trusted_comment) {
+        return Err(PError::new(
+            ErrorKind::Verify,
+            "Signature file contains unprintable characters",
+        ));
+    }
+
+    verify(&pk, &signature_box, data_reader, true, output, allow_legacy)?;
+
+    if !quiet {
+        eprintln!("Signature and comment signature verified");
+        eprintln!("Trusted comment: {}", trusted_comment);
+    }
+    Ok(())
 }
 
 fn create_sk_path_or_default(sk_path_str: Option<&str>, force: bool) -> Result<PathBuf> {

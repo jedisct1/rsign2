@@ -101,3 +101,59 @@ pub fn unix_timestamp() -> u64 {
         .expect("system clock is incorrect");
     since_the_epoch.as_secs()
 }
+
+pub fn is_printable(s: &str) -> bool {
+    for c in s.chars() {
+        match c {
+            '\t' => continue,
+            '\x00'..='\x1f' | '\x7f'..='\u{9f}' => return false,
+            _ => continue,
+        }
+    }
+    true
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_printable_normal_text() {
+        assert!(is_printable("hello world"));
+        assert!(is_printable("timestamp:1234567890"));
+    }
+
+    #[test]
+    fn test_printable_rejects_escape_sequence() {
+        assert!(!is_printable("\x1b[31mred\x1b[0m"));
+    }
+
+    #[test]
+    fn test_printable_rejects_control_characters() {
+        assert!(!is_printable("\x00"));
+        assert!(!is_printable("a\x07b"));
+        assert!(!is_printable("\x7f"));
+    }
+
+    #[test]
+    fn test_printable_rejects_newlines() {
+        assert!(!is_printable("line1\nline2"));
+        assert!(!is_printable("line1\r\nline2"));
+    }
+
+    #[test]
+    fn test_printable_allows_tab() {
+        assert!(is_printable("a\tb"));
+    }
+
+    #[test]
+    fn test_printable_allows_unicode() {
+        assert!(is_printable("héllo 世界"));
+    }
+
+    #[test]
+    fn test_printable_rejects_c1_control() {
+        assert!(!is_printable("\u{80}"));
+        assert!(!is_printable("\u{9f}"));
+    }
+}
