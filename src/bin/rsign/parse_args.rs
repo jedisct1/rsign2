@@ -42,6 +42,12 @@ pub fn parse_args() -> (clap::ArgMatches, String) {
                         .long("passwordless")
                         .action(SetTrue)
                         .help("don't use a password for the secret key"),
+                )
+                .arg(
+                    Arg::new("unencrypted")
+                        .long("unencrypted")
+                        .action(SetTrue)
+                        .help("generate an unencrypted secret key"),
                 ),
         )
         .subcommand(

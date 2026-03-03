@@ -27,6 +27,7 @@ pub fn cmd_generate<P, Q>(
     sk_path: Q,
     comment: Option<&str>,
     passwordless: bool,
+    unencrypted: bool,
 ) -> Result<KeyPair>
 where
     P: AsRef<Path>,
@@ -52,16 +53,23 @@ force this operation.",
     }
     let mut pk_writer = create_file(pk_path, 0o644)?;
     let mut sk_writer = create_file(sk_path, 0o600)?;
-    let kp = KeyPair::generate_and_write_encrypted_keypair(
-        &mut pk_writer,
-        &mut sk_writer,
-        comment,
-        if passwordless {
-            Some(Default::default())
-        } else {
-            None
-        },
-    )?;
+    let kp = if unencrypted {
+        let kp = KeyPair::generate_unencrypted_keypair()?;
+        pk_writer.write_all(&kp.pk.to_box()?.to_bytes())?;
+        sk_writer.write_all(&kp.sk.to_box(comment)?.to_bytes())?;
+        kp
+    } else {
+        KeyPair::generate_and_write_encrypted_keypair(
+            &mut pk_writer,
+            &mut sk_writer,
+            comment,
+            if passwordless {
+                Some(Default::default())
+            } else {
+                None
+            },
+        )?
+    };
     pk_writer.flush()?;
     sk_writer.flush()?;
     Ok(kp)
@@ -91,14 +99,19 @@ where
         ));
     }
     let mut signature_box_writer = create_sig_file(&signature_path)?;
-    let sk = SecretKey::from_file(
-        sk_path,
-        if passwordless {
-            Some(Default::default())
-        } else {
-            None
-        },
-    )?;
+    let sk_str = std::fs::read_to_string(sk_path)?;
+    let sk_box: SecretKeyBox = sk_str.clone().into();
+    let sk = match sk_box.into_unencrypted_secret_key() {
+        Ok(sk) => sk,
+        Err(_) => {
+            let sk_box: SecretKeyBox = sk_str.into();
+            sk_box.into_secret_key(if passwordless {
+                Some(Default::default())
+            } else {
+                None
+            })?
+        }
+    };
     let trusted_comment = if let Some(trusted_comment) = trusted_comment {
         trusted_comment.to_string()
     } else {
@@ -267,12 +280,14 @@ fn run(args: clap::ArgMatches, help_usage: &str) -> Result<()> {
         let sk_path = create_sk_path_or_default(sk_path_str.map(|s| s.as_str()), force)?;
         let comment = generate_action.get_one::<String>("comment");
         let passwordless = generate_action.get_flag("passwordless");
+        let unencrypted = generate_action.get_flag("unencrypted");
         let KeyPair { pk, .. } = cmd_generate(
             force,
             &pk_path,
             &sk_path,
             comment.map(|s| s.as_str()),
             passwordless,
+            unencrypted,
         )?;
         println!(
             "\nThe secret key was saved as {} - Keep it secret!",
