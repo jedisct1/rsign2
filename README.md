@@ -2,7 +2,7 @@
 
 A Rust implementation of [Minisign](https://jedisct1.github.io/minisign/).
 
-All signatures produced by `rsign` can be verified with `minisign` including trusted comments, and vice versa.
+All signatures produced by `rsign` can be verified with `minisign` and `minizign` including trusted comments, and vice versa.
 
 In Rust, signatures can also be verified with the [minisign-verify](https://docs.rs/minisign-verify) crate.
 
