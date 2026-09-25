@@ -6,11 +6,11 @@ authors = [
     "Frank Denis <github@pureftpd.org>",
     "Daniel Rangel <daniel@rangel.in>",
 ]
-description = "A command-line tool to sign files and verify signatures."
+description = "Minisign-compatible command-line tool for Ed25519 file signing, signature verification, and key generation in pure Rust."
 license = "MIT"
 readme = "README.md"
 categories = ["command-line-utilities", "cryptography"]
-keywords = ["command-line", "sign", "publickey", "cryptography", "minisign"]
+keywords = ["minisign", "signing", "signatures", "ed25519", "cli"]
 repository = "https://github.com/jedisct1/rsign2"
 
 [dependencies]
