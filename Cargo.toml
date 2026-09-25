@@ -1,6 +1,6 @@
 [package]
 name = "rsign2"
-version = "0.6.6"
+version = "0.6.7"
 edition = "2018"
 authors = [
     "Frank Denis <github@pureftpd.org>",
@@ -14,8 +14,8 @@ keywords = ["minisign", "signing", "signatures", "ed25519", "cli"]
 repository = "https://github.com/jedisct1/rsign2"
 
 [dependencies]
-clap = { version = "4.5.60", features = ["std", "cargo", "wrap_help", "string"] }
-minisign = "0.9.0"
+clap = { version = "4.6.7", features = ["std", "cargo", "wrap_help", "string"] }
+minisign = "0.9.1"
 
 [target.'cfg(any(windows, unix))'.dependencies]
 dirs = "6.0.0"
